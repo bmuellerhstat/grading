@@ -1,3 +1,4 @@
+import os
 import pprint
 
 # functions
@@ -78,4 +79,11 @@ def run_student_tests(path,student,rubric):
 	average = average / len(all_test_logs)
 	return(average*10)
 
-print(student + ": " + str(run_student_tests(path,student,rubric)))
+# print(student + ": " + str(run_student_tests(path,student,rubric)))
+
+students = os.listdir(path)
+students.sort()
+# print(students)
+
+for student in students:
+	print(student + ": " + str(run_student_tests(path,student,rubric)))
