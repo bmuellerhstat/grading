@@ -1,14 +1,6 @@
 import pprint
 
-# settings 
-
-cohort = 'js-2023'
-assignment = 'dom-lessons-03-10-2022-08-27-36'
-slug = '01-basics/01-hw.html'
-
 # functions
-
-path = f'../../../Documents/github-classroom/{cohort}/{assignment}'
 
 def run_tests(path,student,slug,patterns):
 	# testLog = {
@@ -39,53 +31,44 @@ def run_tests(path,student,slug,patterns):
 	pprint.pprint(testLog)
 	return(testLog)
 
-# program
-
+# settings 
+cohort = 'js-2023'
+repo = 'dom-lessons-03-10-2022-08-27-36'
+path = f'../../../Documents/github-classroom/{cohort}/{repo}'
 student = 'adinb5793'
-slug = '01-basics/01-hw.html'
-patterns_01 = ['querySelector', 'innerHTML']
-
-run_tests(path,student,slug,patterns_01)
-
-
-
-# backup
-
-# # settings 
-
-# cohort = 'js-2023'
-# assignment = 'dom-lessons-03-10-2022-08-27-36'
 # slug = '01-basics/01-hw.html'
-
-# # functions
-
-# path = f'../../../Documents/github-classroom/{cohort}/{assignment}'
-
-# def run_tests(path,student,slug,patterns):
-# 	# testLog = {
-# 	#	'innerHTML': true,
-# 	# 	'querySelector': false
-# 	# }
-# 	testLog = {}
-# 	for pattern in patterns:
-# 		testLog[pattern] = False
-
-# 		with open(f'{path}/{student}/{slug}', 'rt') as f:
-# 			lines = [line.rstrip('\n') for line in f]
-# 			for line in lines:
-# 				print(line)
-# 				if pattern.lower() in line.lower():
-# 					testLog[pattern] = True
-# 					print('TRUE!!!')
-# 	print(testLog)
-# 	return(testLog)
-
-# # program
-
-# student = 'adinb5793'
-# slug = '01-basics/01-hw.html'
-# patterns_01 = ['querySelector', 'innerHTML']
-# # patterns_01 = 'querySelector'
+rubric = [
+	{
+		"slug": '01-basics/01-hw.html',
+		"patterns": ['.querySelector', '.innerHTML']
+	},
+	{
+		"slug": '02-details/02-hw.html',
+		"patterns": ['.style', '.classList.add', '.classList.remove', '.classList.toggle']
+	},
+	{
+		"slug": '03-creating/03-hw.html',
+		"patterns": ['.createElement', 'body.appendChild', ').appendChild', '.insertBefore']
+	},
+	{
+		"slug": '04-iterating/04-hw.html',
+		"patterns": ['.forEach', '.querySelectorAll']
+	},
+	{
+		"slug": '05-events/05-hw.html',
+		"patterns": ['.addEventListener', 'click', 'keypress', 'mouse']
+	},
+	{
+		"slug": '06-inputs/06-hw.html',
+		"patterns": ['input', 'radio', 'select']
+	}
+	
+	
+]
 
 # run_tests(path,student,slug,patterns_01)
+def run_student_tests(path,student,rubric):
+	for lesson in rubric:
+		run_tests(path,student,lesson["slug"],lesson["patterns"])
 
+run_student_tests(path,student,rubric)
