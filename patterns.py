@@ -53,6 +53,12 @@ template_rubric = [
 
 # SEP10
 
+sep10_bootstrap_grid_rubric = [
+	{
+		"slug": 'index.html',
+		"patterns": ['container', 'fluid','row','col']
+	},
+]
 
 
 # SEP11
@@ -89,13 +95,19 @@ sep11_dom_rubric = [
 ##### PROGRAM #####
 
 # SETTINGS
-cohort = 'js-2023'
+
+# cohort = 'wd-2024' # SEP10
+# repo = 'grid-practice-03-11-2022-08-21-17'
+# rubric = sep10_bootstrap_grid_rubric
+
+cohort = 'js-2023' # SEP11
 repo = 'dom-lessons-03-10-2022-08-27-36'
-path = f'../../../Documents/github-classroom/{cohort}/{repo}' # NO NEED TO EDIT
 rubric = sep11_dom_rubric
 
+path = f'../../../Documents/github-classroom/{cohort}/{repo}' # NO NEED TO EDIT
+
 # PRINT ONE STUDENT
-# student = 'adinb5793'
+# student = 'studentn1234'
 # print(student + ": " + str(run_student_tests(path,student,rubric)))
 
 # DO NOT EDIT
