@@ -1,7 +1,7 @@
 import os
 import pprint
 
-# functions
+##### functions #####
 
 def run_tests(path,student,slug,patterns):
 	# test_log = {
@@ -27,18 +27,37 @@ def run_tests(path,student,slug,patterns):
 					if(test_log["patterns"][pattern] == False): # first time seeing pattern
 						test_log["summary"]["correct"] = test_log["summary"]["correct"] + 1
 					test_log["patterns"][pattern] = True
-					# print('TRUE!!!')
 	test_log["summary"]["score"] = test_log["summary"]["correct"]/test_log["summary"]["total"]
 	# pprint.pprint(test_log)
 	return(test_log)
 
-# settings 
-cohort = 'js-2023'
-repo = 'dom-lessons-03-10-2022-08-27-36'
-path = f'../../../Documents/github-classroom/{cohort}/{repo}'
-student = 'adinb5793'
-# slug = '01-basics/01-hw.html'
-rubric = [
+def run_student_tests(path,student,rubric):
+	all_test_logs = []
+	for lesson in rubric:
+		all_test_logs.append(run_tests(path,student,lesson["slug"],lesson["patterns"]))
+	# pprint.pprint(alltest_logs)
+	average = 0
+	for test_log in all_test_logs:
+		average = average + test_log["summary"]["score"]
+	average = average / len(all_test_logs)
+	return(round(average*10,1)) # one decimal point, i.e. 9.7
+
+##### archive #####
+
+template_rubric = [
+	{
+		"slug": 'html',
+		"patterns": ['pattern1', 'pattern2']
+	},
+]
+
+# SEP10
+
+
+
+# SEP11
+
+sep11_dom_rubric = [
 	{
 		"slug": '01-basics/01-hw.html',
 		"patterns": ['.querySelector', '.innerHTML']
@@ -63,27 +82,32 @@ rubric = [
 		"slug": '06-inputs/06-hw.html',
 		"patterns": ['input', 'radio', 'select']
 	}
-	
-	
 ]
 
-# run_tests(path,student,slug,patterns_01)
-def run_student_tests(path,student,rubric):
-	all_test_logs = []
-	for lesson in rubric:
-		all_test_logs.append(run_tests(path,student,lesson["slug"],lesson["patterns"]))
-	# pprint.pprint(alltest_logs)
-	average = 0
-	for test_log in all_test_logs:
-		average = average + test_log["summary"]["score"]
-	average = average / len(all_test_logs)
-	return(average*10)
 
+
+##### PROGRAM #####
+
+# SETTINGS
+cohort = 'js-2023'
+repo = 'dom-lessons-03-10-2022-08-27-36'
+path = f'../../../Documents/github-classroom/{cohort}/{repo}' # NO NEED TO EDIT
+rubric = sep11_dom_rubric
+
+# PRINT ONE STUDENT
+# student = 'adinb5793'
 # print(student + ": " + str(run_student_tests(path,student,rubric)))
 
+# DO NOT EDIT
 students = os.listdir(path)
 students.sort()
+
+# CONFIRM STUDENTS
 # print(students)
 
-for student in students:
-	print(student + ": " + str(run_student_tests(path,student,rubric)))
+# MAIN PROGRAM
+def run():
+	for student in students:
+		print(student + ": " + str(run_student_tests(path,student,rubric)))
+
+run()
