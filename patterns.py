@@ -105,20 +105,25 @@ rubric = sep11_dom_rubric
 
 path = f'../../../Documents/github-classroom/{cohort}/{repo}' # NO NEED TO EDIT
 
-# PRINT ONE STUDENT
-student = 'fuadhoquef8414'
-print(student + ": " + str(run_student_tests(path,student,rubric,True)))
-
 # DO NOT EDIT
 students = os.listdir(path)
 students.sort()
 
-# CONFIRM STUDENTS
-# print(students)
+
 
 # MAIN PROGRAM
 def run():
 	for student in students:
 		print(student + ": " + str(run_student_tests(path,student,rubric,False)))
+
+
+##### PRINT #####
+
+# CONFIRM STUDENTS
+# print(students)
+
+# PRINT ONE STUDENT
+student = 'fuadhoquef8414'
+print(student + ": " + str(run_student_tests(path,student,rubric,True)))
 
 # run()
