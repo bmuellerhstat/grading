@@ -4,11 +4,8 @@ import pprint
 ##### functions #####
 
 def run_tests(path,student,slug,patterns):
-	# test_log = {
-	#	'innerHTML': true,
-	# 	'querySelector': false
-	# }
 	test_log = {
+		"file": "",
 		"patterns": {},
 		"summary": {
 			"correct":0,
@@ -18,6 +15,7 @@ def run_tests(path,student,slug,patterns):
 	for pattern in patterns:
 		test_log["summary"]["total"] = test_log["summary"]["total"] + 1
 		test_log["patterns"][pattern] = False
+		test_log["file"] = slug
 
 		with open(f'{path}/{student}/{slug}', 'rt') as f:
 			lines = [line.rstrip('\n') for line in f]
@@ -31,11 +29,12 @@ def run_tests(path,student,slug,patterns):
 	# pprint.pprint(test_log)
 	return(test_log)
 
-def run_student_tests(path,student,rubric):
+def run_student_tests(path,student,rubric,details):
 	all_test_logs = []
 	for lesson in rubric:
 		all_test_logs.append(run_tests(path,student,lesson["slug"],lesson["patterns"]))
-	# pprint.pprint(alltest_logs)
+	if(details):
+		pprint.pprint(all_test_logs)
 	average = 0
 	for test_log in all_test_logs:
 		average = average + test_log["summary"]["score"]
@@ -97,7 +96,7 @@ sep11_dom_rubric = [
 # SETTINGS
 
 # cohort = 'wd-2024' # SEP10
-# repo = 'grid-practice-03-11-2022-08-21-17'
+# repo = 'grid-practice-03-13-2022-09-40-08'
 # rubric = sep10_bootstrap_grid_rubric
 
 cohort = 'js-2023' # SEP11
@@ -107,8 +106,8 @@ rubric = sep11_dom_rubric
 path = f'../../../Documents/github-classroom/{cohort}/{repo}' # NO NEED TO EDIT
 
 # PRINT ONE STUDENT
-# student = 'studentn1234'
-# print(student + ": " + str(run_student_tests(path,student,rubric)))
+student = 'fuadhoquef8414'
+print(student + ": " + str(run_student_tests(path,student,rubric,True)))
 
 # DO NOT EDIT
 students = os.listdir(path)
@@ -120,6 +119,6 @@ students.sort()
 # MAIN PROGRAM
 def run():
 	for student in students:
-		print(student + ": " + str(run_student_tests(path,student,rubric)))
+		print(student + ": " + str(run_student_tests(path,student,rubric,False)))
 
-run()
+# run()
