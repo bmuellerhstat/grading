@@ -1,9 +1,27 @@
 import os
 import pprint
 
+##### colors #####
+
+PURPLE = '\033[95m'
+BLUE = '\033[94m'
+CYAN = '\033[96m'
+GREEN = '\033[92m'
+YELLOW = '\033[93m'
+RED = '\033[91m'
+ENDC = '\033[0m'
+BOLD = '\033[1m'
+UNDERLINE = '\033[4m'
+
 ##### functions #####
 
-def run_tests(path,student,slug,patterns):
+def color_line(line,pattern,color):
+	start = line.find(pattern)
+	return line[0:start] + color + pattern + ENDC + line[start+len(pattern):]
+
+# print(color_line('my code snippet','code',RED))
+
+def run_tests(path,student,slug,patterns,show_matches):
 	test_log = {
 		"file": "",
 		"patterns": {},
@@ -17,6 +35,9 @@ def run_tests(path,student,slug,patterns):
 		test_log["patterns"][pattern] = False
 		test_log["file"] = slug
 
+		if(show_matches):
+			print(CYAN + slug + ": " + pattern + ENDC)
+
 		with open(f'{path}/{student}/{slug}', 'rt') as f:
 			lines = [line.rstrip('\n') for line in f]
 			for line in lines:
@@ -25,14 +46,15 @@ def run_tests(path,student,slug,patterns):
 					if(test_log["patterns"][pattern] == False): # first time seeing pattern
 						test_log["summary"]["correct"] = test_log["summary"]["correct"] + 1
 					test_log["patterns"][pattern] = True
+					print(color_line(line,pattern,YELLOW))
 	test_log["summary"]["score"] = test_log["summary"]["correct"]/test_log["summary"]["total"]
 	# pprint.pprint(test_log)
 	return(test_log)
 
-def run_student_tests(path,student,rubric,details):
+def run_student_tests(path,student,rubric,details,show_matches):
 	all_test_logs = []
 	for lesson in rubric:
-		all_test_logs.append(run_tests(path,student,lesson["slug"],lesson["patterns"]))
+		all_test_logs.append(run_tests(path,student,lesson["slug"],lesson["patterns"],show_matches))
 	if(details):
 		pprint.pprint(all_test_logs)
 	average = 0
@@ -96,7 +118,8 @@ sep11_dom_rubric = [
 # SETTINGS
 
 # cohort = 'wd-2024' # SEP10
-# repo = 'grid-practice-03-13-2022-09-40-08'
+# repo = 'grid-practice-03-11-2022-08-21-17' # work
+# repo = 'grid-practice-03-13-2022-09-40-08' # home
 # rubric = sep10_bootstrap_grid_rubric
 
 cohort = 'js-2023' # SEP11
@@ -114,7 +137,7 @@ students.sort()
 # MAIN PROGRAM
 def run():
 	for student in students:
-		print(student + ": " + str(run_student_tests(path,student,rubric,False)))
+		print(student + ": " + str(run_student_tests(path,student,rubric,False,False))) # details, show_matches
 
 
 ##### PRINT #####
@@ -124,6 +147,6 @@ def run():
 
 # PRINT ONE STUDENT
 student = 'fuadhoquef8414'
-print(student + ": " + str(run_student_tests(path,student,rubric,True)))
+print(student + ": " + str(run_student_tests(path,student,rubric,True,True))) # details, show_matches
 
 # run()
