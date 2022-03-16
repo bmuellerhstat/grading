@@ -46,7 +46,8 @@ def run_tests(path,student,slug,patterns,show_matches):
 					if(test_log["patterns"][pattern] == False): # first time seeing pattern
 						test_log["summary"]["correct"] = test_log["summary"]["correct"] + 1
 					test_log["patterns"][pattern] = True
-					print(color_line(line,pattern,YELLOW))
+					if(show_matches):
+						print(color_line(line,pattern,YELLOW))
 	test_log["summary"]["score"] = test_log["summary"]["correct"]/test_log["summary"]["total"]
 	# pprint.pprint(test_log)
 	return(test_log)
@@ -78,6 +79,13 @@ sep10_bootstrap_grid_rubric = [
 	{
 		"slug": 'index.html',
 		"patterns": ['container', 'fluid','row','col']
+	},
+]
+
+sep10_rwd_principles_rubric = [
+	{
+		"slug": 'style.css',
+		"patterns": ['media', 'v']
 	},
 ]
 
@@ -117,14 +125,20 @@ sep11_dom_rubric = [
 
 # SETTINGS
 
-# cohort = 'wd-2024' # SEP10
-# repo = 'grid-practice-03-11-2022-08-21-17' # work
-# repo = 'grid-practice-03-13-2022-09-40-08' # home
-# rubric = sep10_bootstrap_grid_rubric
+### SEP10 ###
+cohort = 'wd-2024' # SEP10
 
-cohort = 'js-2023' # SEP11
-repo = 'dom-lessons-03-10-2022-08-27-36'
-rubric = sep11_dom_rubric
+repo = 'grid-practice-03-11-2022-08-21-17' # work
+rubric = sep10_bootstrap_grid_rubric
+
+# repo = 'rwd-principles-03-16-2022-10-40-37' # work
+# rubric = sep10_rwd_principles_rubric
+
+### SEP11 ###
+
+# cohort = 'js-2023' # SEP11
+# repo = 'dom-lessons-03-10-2022-08-27-36' # work
+# rubric = sep11_dom_rubric
 
 path = f'../../../Documents/github-classroom/{cohort}/{repo}' # NO NEED TO EDIT
 
@@ -146,7 +160,7 @@ def run():
 # print(students)
 
 # PRINT ONE STUDENT
-student = 'fuadhoquef8414'
-print(student + ": " + str(run_student_tests(path,student,rubric,True,True))) # details, show_matches
+# student = 'fuadhoquef8414'
+# print(student + ": " + str(run_student_tests(path,student,rubric,True,True))) # details, show_matches
 
-# run()
+run()
