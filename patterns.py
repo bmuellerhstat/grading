@@ -1,5 +1,11 @@
+# `>>> isinstance([0, 10, 20, 30], list) # True`
+# `>>> isinstance(50, list) # False`
+# `if type(a_list) == list:`
+
+
 import os
 import pprint
+from re import search
 
 ##### colors #####
 
@@ -30,24 +36,30 @@ def run_tests(path,student,slug,patterns,show_matches):
 			"total":0
 		}
 	}
-	for pattern in patterns:
-		test_log["summary"]["total"] = test_log["summary"]["total"] + 1
-		test_log["patterns"][pattern] = False
-		test_log["file"] = slug
 
-		if(show_matches):
-			print(CYAN + slug + ": " + pattern + ENDC)
+	try:
+		for pattern in patterns:
+			test_log["summary"]["total"] = test_log["summary"]["total"] + 1
+			test_log["patterns"][pattern] = False
+			test_log["file"] = slug
 
-		with open(f'{path}/{student}/{slug}', 'rt') as f:
-			lines = [line.rstrip('\n') for line in f]
-			for line in lines:
-				# print(line)
-				if pattern.lower() in line.lower():
-					if(test_log["patterns"][pattern] == False): # first time seeing pattern
-						test_log["summary"]["correct"] = test_log["summary"]["correct"] + 1
-					test_log["patterns"][pattern] = True
-					if(show_matches):
-						print(color_line(line,pattern,YELLOW))
+			if(show_matches):
+				print(CYAN + slug + ": " + pattern + ENDC)
+
+			with open(f'{path}/{student}/{slug}', 'rt') as f:
+				lines = [line.rstrip('\n') for line in f]
+				for line in lines:
+					# print(line)
+					# if pattern.lower() in line.lower():
+					if search(pattern.lower(), line.lower()):
+						if(test_log["patterns"][pattern] == False): # first time seeing pattern
+							test_log["summary"]["correct"] = test_log["summary"]["correct"] + 1
+						test_log["patterns"][pattern] = True
+						if(show_matches):
+							print(color_line(line,pattern,YELLOW))
+	except:
+		# print("File: " + student + "/" + test_log["file"] + " not found.")
+		pass
 	test_log["summary"]["score"] = test_log["summary"]["correct"]/test_log["summary"]["total"]
 	# pprint.pprint(test_log)
 	return(test_log)
@@ -119,6 +131,83 @@ sep11_dom_rubric = [
 	}
 ]
 
+sep11_p5js_basics_rubric = [
+	{
+		"slug": '01-basics/shapes-hw.html',
+		"patterns": ['rect', 'ellipse', 'line']
+	},
+	{
+		"slug": '01-basics/text-hw.html',
+		"patterns": ['text']
+	},
+	{
+		"slug": '01-basics/color-hw.html',
+		"patterns": ['fill']
+	}
+]
+
+sep11_p5js_zoog_rubric = [
+	{
+		"slug": '01-basics/zoog.html',
+		"patterns": ['createCanvas', 'background', 'point', 'line', 'rect', 
+					 'ellipse', 'text', 'fill', 'stroke', 'strokeWeight']
+	}
+]
+
+sep11_p5js_movement_rubric = [
+	{
+		"slug": '02-movement/variables-hw.html',
+		"patterns": ['width','height']
+	},
+	{
+		"slug": '02-movement/mousexy-hw.html',
+		"patterns": ['mouseX','mouseY']
+	},
+	{
+		"slug": '02-movement/events-hw.html',
+		"patterns": ['(function mouse|function key)'] # OR
+	},
+	{
+		"slug": '02-movement/random-hw.html',
+		"patterns": ['random']
+	}
+]
+
+sep11_p5js_interactivity_rubric = [
+	{
+		"slug": '02-movement/interactivity.html',
+		"patterns": ['var', 'width', 'height', 'mouseX', 'mouseY', 
+					 'constrain', 'function mouse', 'function key', 'random', 'h1']
+	}
+]
+
+sep11_p5js_application_rubric = [
+	{
+		"slug": '03-application/conditionals-hw.html',
+		"patterns": ['if','key']
+	},
+	{
+		"slug": '03-application/functions-hw.html',
+		"patterns": ['function']
+	},
+	{
+		"slug": '03-application/loops-hw.html',
+		"patterns": ['(for|while)']
+	},
+	{
+		"slug": '03-application/arrays-hw.html',
+		"patterns": ['\[']
+	},
+]
+
+sep11_p5js_applicativity_rubric = [
+	{
+		"slug": '03-application/applicativity.html',
+		"patterns": ['if', 'for', '\[', 'h1', '\//']
+	}
+]
+
+
 
 
 ##### PROGRAM #####
@@ -126,19 +215,29 @@ sep11_dom_rubric = [
 # SETTINGS
 
 ### SEP10 ###
-cohort = 'wd-2024' # SEP10
+# cohort = 'wd-2024' # SEP10
 
-repo = 'grid-practice-03-11-2022-08-21-17' # work
-rubric = sep10_bootstrap_grid_rubric
+# repo = 'grid-practice-03-11-2022-08-21-17' # work
+# rubric = sep10_bootstrap_grid_rubric
 
 # repo = 'rwd-principles-03-16-2022-10-40-37' # work
 # rubric = sep10_rwd_principles_rubric
 
 ### SEP11 ###
 
-# cohort = 'js-2023' # SEP11
-# repo = 'dom-lessons-03-10-2022-08-27-36' # work
+cohort = 'js-2023' # SEP11
+
+# repo = 'dom-lessons-03-10-2022-08-27-36'
 # rubric = sep11_dom_rubric
+
+repo = 'p5js-04-07-2022-04-13-07' # work
+# repo = 'p5js-04-11-2022-06-02-54' # home
+# rubric = sep11_p5js_zoog_rubric
+# rubric = sep11_p5js_basics_rubric
+# rubric = sep11_p5js_movement_rubric
+# rubric = sep11_p5js_interactivity_rubric
+# rubric = sep11_p5js_application_rubric
+rubric = sep11_p5js_applicativity_rubric
 
 path = f'../../../Documents/github-classroom/{cohort}/{repo}' # NO NEED TO EDIT
 
@@ -160,7 +259,7 @@ def run():
 # print(students)
 
 # PRINT ONE STUDENT
-# student = 'fuadhoquef8414'
-# print(student + ": " + str(run_student_tests(path,student,rubric,True,True))) # details, show_matches
+student = 'andrewc4662'
+print(student + ": " + str(run_student_tests(path,student,rubric,True,False))) # details, show_matches
 
-run()
+# run()
