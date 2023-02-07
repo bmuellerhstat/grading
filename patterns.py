@@ -225,19 +225,19 @@ sep11_p5js_applicativity_rubric = [
 
 ### SEP11 ###
 
-cohort = 'js-2023' # SEP11
+cohort = 'js-2024' # SEP11
 
-# repo = 'dom-lessons-03-10-2022-08-27-36'
-# rubric = sep11_dom_rubric
+repo = 'dom-lessons-02-07-2023-03-28-57'
+rubric = sep11_dom_rubric
 
-repo = 'p5js-04-07-2022-04-13-07' # work
+# repo = 'p5js-04-07-2022-04-13-07' # work
 # repo = 'p5js-04-11-2022-06-02-54' # home
 # rubric = sep11_p5js_zoog_rubric
 # rubric = sep11_p5js_basics_rubric
 # rubric = sep11_p5js_movement_rubric
 # rubric = sep11_p5js_interactivity_rubric
 # rubric = sep11_p5js_application_rubric
-rubric = sep11_p5js_applicativity_rubric
+# rubric = sep11_p5js_applicativity_rubric
 
 path = f'../../../Documents/github-classroom/{cohort}/{repo}' # NO NEED TO EDIT
 
@@ -259,7 +259,7 @@ def run():
 # print(students)
 
 # PRINT ONE STUDENT
-student = 'andrewc4662'
-print(student + ": " + str(run_student_tests(path,student,rubric,True,False))) # details, show_matches
+student = 'junjiel4616'
+print(student + ": " + str(run_student_tests(path,student,rubric,True,True))) # details, show_matches
 
 # run()
