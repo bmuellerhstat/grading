@@ -107,23 +107,23 @@ sep10_rwd_principles_rubric = [
 sep11_dom_rubric = [
 	{
 		"slug": '01-basics/01-hw.html',
-		"patterns": ['.querySelector', '.innerHTML']
+		"patterns": ['querySelector', 'innerHTML.*\+=', 'innerHTML.*=']
 	},
 	{
 		"slug": '02-details/02-hw.html',
-		"patterns": ['.style', '.classList.add', '.classList.remove', '.classList.toggle']
+		"patterns": ['\.style', '.classList.add', '.classList.remove', '.classList.toggle']
 	},
 	{
 		"slug": '03-creating/03-hw.html',
-		"patterns": ['.createElement', 'body.appendChild', ').appendChild', '.insertBefore']
+		"patterns": ['createElement', 'appendChild', 'insertBefore']
 	},
 	{
 		"slug": '04-iterating/04-hw.html',
-		"patterns": ['.forEach', '.querySelectorAll']
+		"patterns": ['forEach', 'querySelectorAll']
 	},
 	{
 		"slug": '05-events/05-hw.html',
-		"patterns": ['.addEventListener', 'click', 'keypress', 'mouse']
+		"patterns": ['addEventListener', 'click', 'keypress', 'mouse']
 	},
 	{
 		"slug": '06-inputs/06-hw.html',
@@ -140,16 +140,16 @@ sep11_p5js_basics_rubric = [
 		"slug": '01-basics/text-hw.html',
 		"patterns": ['text']
 	},
-	{
-		"slug": '01-basics/color-hw.html',
-		"patterns": ['fill']
-	}
+	# {
+	# 	"slug": '01-basics/color-hw.html',
+	# 	"patterns": ['fill']
+	# }
 ]
 
 sep11_p5js_zoog_rubric = [
 	{
 		"slug": '01-basics/zoog.html',
-		"patterns": ['createCanvas', 'background', 'point', 'line', 'rect', 
+		"patterns": ['//', 'background', 'point', 'line', 'rect', 
 					 'ellipse', 'text', 'fill', 'stroke', 'strokeWeight']
 	}
 ]
@@ -215,9 +215,9 @@ sep11_p5js_applicativity_rubric = [
 # SETTINGS
 
 ### SEP10 ###
-# cohort = 'wd-2024' # SEP10
+# cohort = 'wd-2025' # SEP10
 
-# repo = 'grid-practice-03-11-2022-08-21-17' # work
+# repo = 'bootstrap-grid-practice-03-10-2023-03-00-40' # work
 # rubric = sep10_bootstrap_grid_rubric
 
 # repo = 'rwd-principles-03-16-2022-10-40-37' # work
@@ -227,13 +227,12 @@ sep11_p5js_applicativity_rubric = [
 
 cohort = 'js-2024' # SEP11
 
-repo = 'dom-lessons-02-07-2023-03-28-57'
-rubric = sep11_dom_rubric
+# repo = 'dom-lessons-03-10-2023-03-02-53'
+# rubric = sep11_dom_rubric
 
-# repo = 'p5js-04-07-2022-04-13-07' # work
-# repo = 'p5js-04-11-2022-06-02-54' # home
+repo = 'p5js-03-15-2023-11-46-19'
+rubric = sep11_p5js_basics_rubric
 # rubric = sep11_p5js_zoog_rubric
-# rubric = sep11_p5js_basics_rubric
 # rubric = sep11_p5js_movement_rubric
 # rubric = sep11_p5js_interactivity_rubric
 # rubric = sep11_p5js_application_rubric
@@ -259,7 +258,7 @@ def run():
 # print(students)
 
 # PRINT ONE STUDENT
-student = 'junjiel4616'
-print(student + ": " + str(run_student_tests(path,student,rubric,True,True))) # details, show_matches
+# student = 'hanaah1529'
+# print(student + ": " + str(run_student_tests(path,student,rubric,True,False))) # details, show_matches
 
-# run()
+run()
