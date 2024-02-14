@@ -140,16 +140,16 @@ sep11_p5js_basics_rubric = [
 		"slug": '01-basics/text-hw.html',
 		"patterns": ['text']
 	},
-	# {
-	# 	"slug": '01-basics/color-hw.html',
-	# 	"patterns": ['fill']
-	# }
+	{
+		"slug": '01-basics/color-hw.html',
+		"patterns": ['fill']
+	}
 ]
 
 sep11_p5js_zoog_rubric = [
 	{
 		"slug": '01-basics/zoog.html',
-		"patterns": ['//', 'background', 'point', 'line', 'rect', 
+		"patterns": ['\/\/(?! JS)', 'background', 'point', 'line', 'rect', 
 					 'ellipse', 'text', 'fill', 'stroke', 'strokeWeight']
 	}
 ]
@@ -157,7 +157,7 @@ sep11_p5js_zoog_rubric = [
 sep11_p5js_movement_rubric = [
 	{
 		"slug": '02-movement/variables-hw.html',
-		"patterns": ['width','height']
+		"patterns": ['(?<!ntent..|device\-)width','height'] # fixed width: both 7 letters (ignore meta tag)
 	},
 	{
 		"slug": '02-movement/mousexy-hw.html',
@@ -176,7 +176,7 @@ sep11_p5js_movement_rubric = [
 sep11_p5js_interactivity_rubric = [
 	{
 		"slug": '02-movement/interactivity.html',
-		"patterns": ['var', 'width', 'height', 'mouseX', 'mouseY', 
+		"patterns": ['var', '(?<!ntent..|device\-)width', 'height', 'mouseX', 'mouseY', 
 					 'constrain', 'function mouse', 'function key', 'random', 'h1']
 	}
 ]
@@ -186,10 +186,10 @@ sep11_p5js_application_rubric = [
 		"slug": '03-application/conditionals-hw.html',
 		"patterns": ['if','key']
 	},
-	{
-		"slug": '03-application/functions-hw.html',
-		"patterns": ['function']
-	},
+	# {
+	# 	"slug": '03-application/functions-hw.html',
+	# 	"patterns": ['function']
+	# },
 	{
 		"slug": '03-application/loops-hw.html',
 		"patterns": ['(for|while)']
@@ -225,13 +225,13 @@ sep11_p5js_applicativity_rubric = [
 
 ### SEP11 ###
 
-cohort = 'js-2024' # SEP11
+cohort = 'js-2025' # SEP11
 
-# repo = 'dom-lessons-03-10-2023-03-02-53'
-# rubric = sep11_dom_rubric
+repo = 'dom-lessons-02-08-2024-08-02-42'
+rubric = sep11_dom_rubric
 
-repo = 'p5js-03-15-2023-11-46-19'
-rubric = sep11_p5js_basics_rubric
+# repo = 'p5js-03-17-2023-11-39-56'
+# rubric = sep11_p5js_basics_rubric
 # rubric = sep11_p5js_zoog_rubric
 # rubric = sep11_p5js_movement_rubric
 # rubric = sep11_p5js_interactivity_rubric
@@ -258,7 +258,8 @@ def run():
 # print(students)
 
 # PRINT ONE STUDENT
-# student = 'hanaah1529'
+# student = 'jianghuiz7368'
 # print(student + ": " + str(run_student_tests(path,student,rubric,True,False))) # details, show_matches
 
+# python3 patterns.py
 run()
