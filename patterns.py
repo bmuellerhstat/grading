@@ -5,6 +5,7 @@
 
 import os
 import pprint
+import math
 from re import search
 
 ##### colors #####
@@ -64,17 +65,31 @@ def run_tests(path,student,slug,patterns,show_matches):
 	# pprint.pprint(test_log)
 	return(test_log)
 
-def run_student_tests(path,student,rubric,details,show_matches):
+def run_student_tests(path,student,rubric,details,show_matches,student_breakdown):
 	all_test_logs = []
 	for lesson in rubric:
 		all_test_logs.append(run_tests(path,student,lesson["slug"],lesson["patterns"],show_matches))
 	if(details):
 		pprint.pprint(all_test_logs)
+	if(student_breakdown):
+		# print("")
+		for test_log in all_test_logs:
+			# pprint.pprint(all_test_logs)
+			score = test_log["summary"]["score"] # out of 1.0
+			score = round(score,3)
+			score = score*10
+			if float(score).is_integer(): # i.e. turn 10.0 into 10
+				score = int(score)
+			print(student + ": " + test_log["file"] + " " + str(score) + "/10")
 	average = 0
 	for test_log in all_test_logs:
 		average = average + test_log["summary"]["score"]
 	average = average / len(all_test_logs)
-	return(round(average*10,1)) # one decimal point, i.e. 9.7
+	average = average*10
+	average = round(average,2)
+	if float(average).is_integer(): # i.e. turn 10.0 into 10
+		average = int(average)
+	return(average)
 
 ##### archive #####
 
@@ -186,10 +201,10 @@ sep11_p5js_application_rubric = [
 		"slug": '03-application/conditionals-hw.html',
 		"patterns": ['if','key']
 	},
-	# {
-	# 	"slug": '03-application/functions-hw.html',
-	# 	"patterns": ['function']
-	# },
+	{
+		"slug": '03-application/functions-hw.html',
+		"patterns": ['function']
+	},
 	{
 		"slug": '03-application/loops-hw.html',
 		"patterns": ['(for|while)']
@@ -227,11 +242,11 @@ sep11_p5js_applicativity_rubric = [
 
 cohort = 'js-2025' # SEP11
 
-repo = 'dom-lessons-02-08-2024-08-02-42'
-rubric = sep11_dom_rubric
+# repo = 'dom-lessons-02-08-2024-08-02-42'
+# rubric = sep11_dom_rubric
 
-# repo = 'p5js-03-17-2023-11-39-56'
-# rubric = sep11_p5js_basics_rubric
+repo = 'p5js-03-12-2024-10-31-07'
+rubric = sep11_p5js_basics_rubric
 # rubric = sep11_p5js_zoog_rubric
 # rubric = sep11_p5js_movement_rubric
 # rubric = sep11_p5js_interactivity_rubric
@@ -248,8 +263,23 @@ students.sort()
 
 # MAIN PROGRAM
 def run():
+	num_students = 0
+	score_total = 0
 	for student in students:
-		print(student + ": " + str(run_student_tests(path,student,rubric,False,False))) # details, show_matches
+		
+		# final score only
+		student_score = run_student_tests(path,student,rubric,False,False,False) # details, show_matches, student_breakdown
+		print(student + ": " + str(student_score)) 
+		
+		# breakdown
+		# print(student + ": AVERAGE " + str(run_student_tests(path,student,rubric,False,False,True)) + "/10") # details, show_matches, student_breakdown
+
+		# average
+		num_students = num_students + 1
+		score_total = score_total + student_score
+		
+	
+	print("AVERAGE: " + str(round(score_total/num_students,2)))
 
 
 ##### PRINT #####
@@ -258,8 +288,8 @@ def run():
 # print(students)
 
 # PRINT ONE STUDENT
-# student = 'jianghuiz7368'
-# print(student + ": " + str(run_student_tests(path,student,rubric,True,False))) # details, show_matches
+student = 'leonelp8111'
+# print(student + ": " + str(run_student_tests(path,student,rubric,True,False,False))) # details, show_matches,student_breakdown
 
 # python3 patterns.py
 run()
