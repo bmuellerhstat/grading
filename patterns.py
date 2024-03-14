@@ -102,17 +102,17 @@ template_rubric = [
 
 # SEP10
 
-sep10_bootstrap_grid_rubric = [
-	{
-		"slug": 'index.html',
-		"patterns": ['container', 'fluid','row','col']
-	},
-]
-
 sep10_rwd_principles_rubric = [
 	{
 		"slug": 'style.css',
 		"patterns": ['media', 'v']
+	},
+]
+
+sep10_bootstrap_grid_rubric = [
+	{
+		"slug": 'index.html',
+		"patterns": ['container', 'fluid','row','col']
 	},
 ]
 
@@ -230,23 +230,23 @@ sep11_p5js_applicativity_rubric = [
 # SETTINGS
 
 ### SEP10 ###
-# cohort = 'wd-2025' # SEP10
+cohort = 'wd-2026' # SEP10
 
-# repo = 'bootstrap-grid-practice-03-10-2023-03-00-40' # work
-# rubric = sep10_bootstrap_grid_rubric
-
-# repo = 'rwd-principles-03-16-2022-10-40-37' # work
+# repo = 'rwd-principles-03-14-2024-03-37-05'
 # rubric = sep10_rwd_principles_rubric
+
+repo = 'bootstrap-grid-practice-03-14-2024-03-11-48'
+rubric = sep10_bootstrap_grid_rubric
 
 ### SEP11 ###
 
-cohort = 'js-2025' # SEP11
+# cohort = 'js-2025' # SEP11
 
 # repo = 'dom-lessons-02-08-2024-08-02-42'
 # rubric = sep11_dom_rubric
 
-repo = 'p5js-03-12-2024-10-31-07'
-rubric = sep11_p5js_basics_rubric
+# repo = 'p5js-03-12-2024-10-31-07'
+# rubric = sep11_p5js_basics_rubric
 # rubric = sep11_p5js_zoog_rubric
 # rubric = sep11_p5js_movement_rubric
 # rubric = sep11_p5js_interactivity_rubric
@@ -288,7 +288,7 @@ def run():
 # print(students)
 
 # PRINT ONE STUDENT
-student = 'leonelp8111'
+# student = 'samuels0052'
 # print(student + ": " + str(run_student_tests(path,student,rubric,True,False,False))) # details, show_matches,student_breakdown
 
 # python3 patterns.py
