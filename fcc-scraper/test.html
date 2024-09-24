@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    th {
+        padding: 1rem 3rem;
+        border: 5px solid black;
+    }
+</style>
+
+<body>
+    <table>
+        <tr id="first">
+            <th>Student</th>
+        </tr>
+    </table>
+</body>
+
+<script>
+    const lol = document.querySelector("#first");
+    const table = document.querySelector("table");
+
+    async function test() {
+        const response = await fetch(`http://localhost:3000/?student=samuels0052`);
+        const result = await response.json();
+
+        result.meta.forEach((i) => {
+            const a = document.createElement("th");
+            a.innerHTML = i.title;
+            lol.appendChild(a);
+        });
+
+        const dataRow = document.createElement("tr");
+        const studentCell = document.createElement("th");
+        studentCell.innerHTML = "samuels0052";
+        dataRow.appendChild(studentCell);
+
+        result.meta.forEach((header) => {
+            const dataCell = document.createElement("th");
+            const challenge = result.challenges.find(challenge => challenge.title === header.title);
+
+            if (challenge) {
+                dataCell.innerHTML = "✅";
+            } else {
+                dataCell.innerHTML = "❌";
+            }
+            dataRow.appendChild(dataCell);
+        });
+
+        table.appendChild(dataRow);
+    }
+
+    test();
+</script>
+
+</html>
