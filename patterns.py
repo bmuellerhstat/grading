@@ -157,7 +157,7 @@ sep11_p5js_basics_rubric = [
 	},
 	{
 		"slug": '01-basics/color-hw.html',
-		"patterns": ['fill']
+		"patterns": ['(fill|stroke)']
 	}
 ]
 
@@ -235,19 +235,19 @@ cohort = 'wd-2026' # SEP10
 # repo = 'rwd-principles-03-14-2024-03-37-05'
 # rubric = sep10_rwd_principles_rubric
 
-repo = 'bootstrap-grid-practice-03-14-2024-03-11-48'
-rubric = sep10_bootstrap_grid_rubric
+# repo = 'bootstrap-grid-practice-03-14-2024-03-11-48'
+# rubric = sep10_bootstrap_grid_rubric
 
 ### SEP11 ###
 
-# cohort = 'js-2025' # SEP11
+cohort = 'js-2025' # SEP11
 
-# repo = 'dom-lessons-02-08-2024-08-02-42'
+# repo = 'dom-lessons-03-14-2024-03-10-35'
 # rubric = sep11_dom_rubric
 
-# repo = 'p5js-03-12-2024-10-31-07'
+repo = 'p5js-03-14-2024-03-11-11'
 # rubric = sep11_p5js_basics_rubric
-# rubric = sep11_p5js_zoog_rubric
+rubric = sep11_p5js_zoog_rubric
 # rubric = sep11_p5js_movement_rubric
 # rubric = sep11_p5js_interactivity_rubric
 # rubric = sep11_p5js_application_rubric
@@ -288,7 +288,7 @@ def run():
 # print(students)
 
 # PRINT ONE STUDENT
-# student = 'samuels0052'
+# student = 'austinl1905'
 # print(student + ": " + str(run_student_tests(path,student,rubric,True,False,False))) # details, show_matches,student_breakdown
 
 # python3 patterns.py
