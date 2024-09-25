@@ -1,0 +1,219 @@
+{
+    "students": [
+        "matthewluisc0913",
+        "bryanc8776",
+        "ellenc0297",
+        "fatjond0413",
+        "nayere6342",
+        "liane4323",
+        "qiling9760",
+        "keithh9704",
+        "elijahk5569",
+        "kateewingkik5417",
+        "kylel3769",
+        "michellel7435",
+        "kostelal0688",
+        "xinyangl5722",
+        "kiaram4187",
+        "jairop2409",
+        "simrans4258",
+        "jesusv1597",
+        "caronv3030",
+        "leow1534",
+        "katherinew5896",
+        "johnnyy5929",
+        "calviny2336",
+        "michaelaa9578",
+        "alia6784",
+        "esmhana1319",
+        "bishoyb1251",
+        "nancyc0337",
+        "dayanisc7709",
+        "romeof8735",
+        "melissaf9307",
+        "alvinf7989",
+        "calebg4205",
+        "urielh3191",
+        "samanthal4231",
+        "jacobl3371",
+        "jimmyl6413",
+        "haol0946",
+        "kylel5957",
+        "xuel6135",
+        "billyxinl1116",
+        "kosall5220",
+        "omarm4400",
+        "michaelm7887",
+        "dildoran2195",
+        "richardp6889",
+        "christianr3285",
+        "robertx7476",
+        "astridz5825",
+        "joez2450"
+    ],
+    
+    "assignments": [
+        {
+            "assignmentName": "JS Basics 1",
+            "lessons": [
+                {
+                    "id": "bd7123c9c441eddfaeb4bdef",
+                    "title": "Comment Your JavaScript Code"
+                },
+                {
+                    "id": "bd7123c9c443eddfaeb5bdef",
+                    "title": "Declare JavaScript Variables"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244a8",
+                    "title": "Storing Values with the Assignment Operator"
+                },
+                {
+                    "id": "5ee127a03c3b35dd45426493",
+                    "title": "Assigning the Value of One Variable to Another"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244a9",
+                    "title": "Initializing Variables with the Assignment Operator"
+                },
+                {
+                    "id": "bd7123c9c444eddfaeb5bdef",
+                    "title": "Declare String Variables"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244aa",
+                    "title": "Understanding Uninitialized Variables"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244ab",
+                    "title": "Understanding Case Sensitivity in Variables"
+                },
+                {
+                    "id": "587d7b87367417b2b2512b3f",
+                    "title": "Explore Differences Between the var and let Keywords"
+                },
+                {
+                    "id": "587d7b87367417b2b2512b41",
+                    "title": "Declare a Read-Only Variable with the const Keyword"
+                },
+                {
+                    "id": "cf1111c1c11feddfaeb3bdef",
+                    "title": "Add Two Numbers with JavaScript"
+                },
+                {
+                    "id": "cf1111c1c11feddfaeb4bdef",
+                    "title": "Subtract One Number from Another with JavaScript"
+                },
+                {
+                    "id": "cf1231c1c11feddfaeb5bdef",
+                    "title": "Multiply Two Numbers with JavaScript"
+                },
+                {
+                    "id": "cf1111c1c11feddfaeb6bdef",
+                    "title": "Divide One Number by Another with JavaScript"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244ac",
+                    "title": "Increment a Number with JavaScript"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244ad",
+                    "title": "Decrement a Number with JavaScript"
+                },
+                {
+                    "id": "cf1391c1c11feddfaeb4bdef",
+                    "title": "Create Decimal Numbers with JavaScript"
+                },
+                {
+                    "id": "bd7993c9c69feddfaeb7bdef",
+                    "title": "Multiply Two Decimals with JavaScript"
+                },
+                {
+                    "id": "bd7993c9ca9feddfaeb7bdef",
+                    "title": "Divide One Decimal by Another with JavaScript"
+                }
+            ]
+        },
+        {
+            "assignmentName": "JS Basics 1",
+            "lessons": [
+                {
+                    "id": "56533eb9ac21ba0edf2244ae",
+                    "title": "Finding a Remainder in JavaScript"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244af",
+                    "title": "Compound Assignment With Augmented Addition"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244b0",
+                    "title": "Compound Assignment With Augmented Subtraction"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244b1",
+                    "title": "Compound Assignment With Augmented Multiplication"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244b2",
+                    "title": "Compound Assignment With Augmented Division"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244b5",
+                    "title": "Escaping Literal Quotes in Strings"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244b4",
+                    "title": "Quoting Strings with Single Quotes"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244b6",
+                    "title": "Escape Sequences in Strings"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244b7",
+                    "title": "Concatenating Strings with Plus Operator"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244b8",
+                    "title": "Concatenating Strings with the Plus Equals Operator"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244b9",
+                    "title": "Constructing Strings with Variables"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244ed",
+                    "title": "Appending Variables to Strings"
+                },
+                {
+                    "id": "bd7123c9c448eddfaeb5bdef",
+                    "title": "Find the Length of a String"
+                },
+                {
+                    "id": "bd7123c9c549eddfaeb5bdef",
+                    "title": "Use Bracket Notation to Find the First Character in a String"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244ba",
+                    "title": "Understand String Immutability"
+                },
+                {
+                    "id": "bd7123c9c450eddfaeb5bdef",
+                    "title": "Use Bracket Notation to Find the Nth Character in a String"
+                },
+                {
+                    "id": "bd7123c9c451eddfaeb5bdef",
+                    "title": "Use Bracket Notation to Find the Last Character in a String"
+                },
+                {
+                    "id": "bd7123c9c452eddfaeb5bdef",
+                    "title": "Use Bracket Notation to Find the Nth-to-Last Character in a String"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244bb",
+                    "title": "Word Blanks"
+                }
+            ]
+        }
+    ]
+}
