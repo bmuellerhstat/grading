@@ -6,4 +6,4 @@
 
 # How to test the api locally?
 
-`curl "http://localhost:3000/?student=samuels0052"`
+`curl "http://localhost:3000/?filePath=sep11info.json"`
