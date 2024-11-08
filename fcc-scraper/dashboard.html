@@ -23,35 +23,7 @@
             <h2 class="mb-2">SEP11</h2>
                 
             <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Username</th>
-                        <th scope="col">JS Basics 1</th>
-                            <!-- 
-                            Comment Your JavaScript Code
-                            Declare JavaScript Variables
-                            Storing Values with the Assignment Operator
-                            Assigning the Value of One Variable to Another
-                            Initializing Variables with the Assignment Operator
-                            Declare String Variables
-                            Understanding Uninitialized Variables
-                            Understanding Case Sensitivity in Variables
-                            Explore Differences Between the var and let Keywords
-                            Declare a Read-Only Variable with the const Keyword
-                            Add Two Numbers with JavaScript
-                            Subtract One Number from Another with JavaScript
-                            Multiply Two Numbers with JavaScript
-                            Divide One Number by Another with JavaScript
-                            Increment a Number with JavaScript
-                            Decrement a Number with JavaScript
-                            Create Decimal Numbers with JavaScript
-                            Multiply Two Decimals with JavaScript
-                            Divide One Decimal by Another with JavaScript
-                            -->
-                        <th scope="col">JS Basics 2</th>
-                        <th scope="col">Arrays</th>
-                    </tr>
-                </thead>
+                <!-- headers to be populated dynamically -->
                 <tbody>
                     <!-- to be populated by addRow()  -->
                 </tbody>
@@ -75,14 +47,23 @@
                 const csvData = csvToJson(csvContent);
 
                 // Run your code once both files are loaded
-                console.log('CSV Data:', csvData);
+                // console.log('CSV Data:', csvData);
                 // console.log('JSON Data:', jsonData);
+                console.log(jsonData["assignments"])
 
                 // Display results
                 // document.getElementById('csvOutput').innerText = JSON.stringify(csvData, null, 2);
                 // document.getElementById('jsonOutput').innerText = JSON.stringify(jsonData, null, 2);
 
                 // Use csvData and jsonData together
+
+                // add table headers
+                let theadHTML = `<thead><tr><th scope="col">`
+                jsonData["assignments"].forEach(function(assignment){
+                    theadHTML += `<th scope="col">${assignment["assignmentName"]}</th>`
+                });
+                theadHTML += `</tr></thead>`
+                document.querySelector('.table').innerHTML += theadHTML;
 
                 // ALL
                 csvData.forEach(function(studentJSON){
