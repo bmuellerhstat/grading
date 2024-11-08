@@ -50,8 +50,10 @@
             let year = getUrlParameter('year');
             document.querySelector('#sep').innerHTML = `SEP${year}`
 
+            let csvPath = getUrlParameter('csv');
+
             Promise.all([
-                fetch('output.csv').then(response => response.text()),
+                fetch(csvPath).then(response => response.text()),
                 fetch(`sep${year}info.json`).then(response => response.json())
             ])
             .then(([csvContent, jsonData]) => {

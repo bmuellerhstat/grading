@@ -9,6 +9,9 @@
         <!-- <link href="style.css" rel="stylesheet" type="text/css" /> -->
         <style>
             /* CSS */
+            input {
+                margin-right: 10px;
+            }
         </style>
         
         <title>FCC Home</title>
@@ -19,11 +22,9 @@
         <div class="container">
             <h1 class="mt-4 mb-4">FreeCodeCamp Progress</h1>
 
-            <h2 class="mb-2"><a href="dashboard.html?year=10" class="btn btn-primary" role="button">SEP10</a></h2>
-            <h2 class="mb-2"><a href="dashboard.html?year=11" class="btn btn-primary" role="button">SEP11</a></h2>
-                
-            
+            <p><input id="sep10path" class="sepPath" placeholder="CSV File Name"><a id="sep10link" href="dashboard.html?year=10" class="btn btn-primary" role="button">SEP10</a></p>
 
+            <p><input id="sep11path" class="sepPath" placeholder="CSV File Name"><a id="sep11link" href="dashboard.html?year=11" class="btn btn-primary" role="button">SEP11</a></p>
 
         </div>
         
@@ -32,6 +33,20 @@
         <!-- <script src="script.js"></script> -->
         <script>
             // JS
+
+            // document.querySelector('sep10path').addEventListener("input", function(event) {
+            //     const path = this.value;
+            //     // const formattedUrl = url.startsWith('http') ? url : `https://${url}`;
+            //     document.getElementById("dynamicLink").href = formattedUrl;
+            // });
+            
+            document.querySelectorAll('.sepPath').forEach(function(sepPathInput){
+                sepPathInput.addEventListener('input', function(addEventListener){
+                    let path = this.value;
+                    path = path.endsWith('.csv') ? path : `${path}.csv`;
+                    event.target.nextElementSibling.href += "&csv=" + path
+                })
+            });
 
 
         </script>
