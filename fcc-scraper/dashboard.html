@@ -20,7 +20,7 @@
         <div class="container">
             <h1 class="mt-4 mb-4">FreeCodeCamp Progress</h1>
 
-            <h2 class="mb-2">SEP11</h2>
+            <h2 class="mb-2" id="sep"></h2>
                 
             <table class="table">
                 <!-- headers to be populated dynamically -->
@@ -38,9 +38,21 @@
         <script>
             // JS
 
+            let urlParams = new URLSearchParams(window.location.search);
+
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            };
+
+            let year = getUrlParameter('year');
+            document.querySelector('#sep').innerHTML = `SEP${year}`
+
             Promise.all([
                 fetch('output.csv').then(response => response.text()),
-                fetch('sep11info.json').then(response => response.json())
+                fetch(`sep${year}info.json`).then(response => response.json())
             ])
             .then(([csvContent, jsonData]) => {
                 // Convert CSV content to JSON
