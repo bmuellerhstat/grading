@@ -61,9 +61,10 @@
                 const csvData = csvToJson(csvContent);
 
                 // Run your code once both files are loaded
-                // console.log('CSV Data:', csvData);
+                console.log('CSV Data:', csvData);
+                console.log(csvData[0].Username)
                 // console.log('JSON Data:', jsonData);
-                console.log(jsonData["assignments"])
+                // console.log(jsonData["assignments"])
 
                 // Display results
                 // document.getElementById('csvOutput').innerText = JSON.stringify(csvData, null, 2);
@@ -80,8 +81,22 @@
                 document.querySelector('.table').innerHTML += theadHTML;
 
                 // ALL
-                csvData.forEach(function(studentJSON){
-                    addRow(studentJSON,jsonData)
+                // csvData.forEach(function(studentJSON){
+                //     addRow(studentJSON,jsonData)
+                // });
+                jsonData["students"].forEach(function(student){
+                    console.log(student)
+                    // let studentJSON = csvData.find(studentObj => studentObj["Username"] == student)
+                    try {
+                        let studentJSON = csvData.find(studentObj => {
+                            return studentObj.Username == student
+                        })
+                        console.log(studentJSON)
+                        addRow(studentJSON,jsonData)
+                    } catch {
+                        errorRow(student)
+                    }
+                    
                 });
 
                 // ONE (debugging)
@@ -105,6 +120,17 @@
                     return obj;
                 });
                 return jsonData;
+            }
+
+            function errorRow(studentName){
+                let rowHTML = `
+                    <tr>
+                        <th scope="row" class="text-light bg-dark">${studentName}</th>
+                    </tr>
+                `;
+
+                // Append the completed row to the table body
+                document.querySelector('tbody').innerHTML += rowHTML;
             }
 
             function addRow(studentJSON, jsonData) {
