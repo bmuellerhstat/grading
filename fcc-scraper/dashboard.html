@@ -67,151 +67,151 @@
             // JS
 
             Promise.all([
-            fetch('output.csv').then(response => response.text()),
-            fetch('sep11info.json').then(response => response.json())
-        ])
-        .then(([csvContent, jsonData]) => {
-            // Convert CSV content to JSON
-            const csvData = csvToJson(csvContent);
+                fetch('output.csv').then(response => response.text()),
+                fetch('sep11info.json').then(response => response.json())
+            ])
+            .then(([csvContent, jsonData]) => {
+                // Convert CSV content to JSON
+                const csvData = csvToJson(csvContent);
 
-            // Run your code once both files are loaded
-            console.log('CSV Data:', csvData);
-            // console.log('JSON Data:', jsonData);
+                // Run your code once both files are loaded
+                console.log('CSV Data:', csvData);
+                // console.log('JSON Data:', jsonData);
 
-            // Display results
-            // document.getElementById('csvOutput').innerText = JSON.stringify(csvData, null, 2);
-            // document.getElementById('jsonOutput').innerText = JSON.stringify(jsonData, null, 2);
+                // Display results
+                // document.getElementById('csvOutput').innerText = JSON.stringify(csvData, null, 2);
+                // document.getElementById('jsonOutput').innerText = JSON.stringify(jsonData, null, 2);
 
-            // Use csvData and jsonData together
+                // Use csvData and jsonData together
 
-            // ALL
-            csvData.forEach(function(studentJSON){
-                addRow(studentJSON,jsonData)
-            });
-
-            // ONE (debugging)
-            // let studentJSON = csvData[7]
-            // addRow(studentJSON,jsonData);
-        })
-        .catch(error => {
-            console.error('Error loading files:', error);
-        });
-
-        // Function to convert CSV content to JSON
-        function csvToJson(csvContent) {
-            const lines = csvContent.trim().split('\n'); // Split the content by new lines
-            const headers = lines[0].split(','); // Get the headers from the first line
-            const jsonData = lines.slice(1).map(line => {
-                const values = line.split(','); // Split each line by commas
-                const obj = {};
-                headers.forEach((header, index) => {
-                    obj[header.trim()] = values[index].trim();
+                // ALL
+                csvData.forEach(function(studentJSON){
+                    addRow(studentJSON,jsonData)
                 });
-                return obj;
+
+                // ONE (debugging)
+                // let studentJSON = csvData[7]
+                // addRow(studentJSON,jsonData);
+            })
+            .catch(error => {
+                console.error('Error loading files:', error);
             });
-            return jsonData;
-        }
 
-        function addRow(studentJSON, jsonData) {
-            let studentName = studentJSON["Username"];
-            let assignmentsGraded = mergeCSVandJSON(studentJSON, jsonData);
+            // Function to convert CSV content to JSON
+            function csvToJson(csvContent) {
+                const lines = csvContent.trim().split('\n'); // Split the content by new lines
+                const headers = lines[0].split(','); // Get the headers from the first line
+                const jsonData = lines.slice(1).map(line => {
+                    const values = line.split(','); // Split each line by commas
+                    const obj = {};
+                    headers.forEach((header, index) => {
+                        obj[header.trim()] = values[index].trim();
+                    });
+                    return obj;
+                });
+                return jsonData;
+            }
 
-            // Start a single row for the student
-            let rowHTML = `
-                <tr>
-                    <th scope="row">${studentName}</th>
-            `;
+            function addRow(studentJSON, jsonData) {
+                let studentName = studentJSON["Username"];
+                let assignmentsGraded = mergeCSVandJSON(studentJSON, jsonData);
 
-            // Add a <td> for each assignment within the same row
-            assignmentsGraded.forEach(function(assignment, i) {
-                let btnColor;
-                let assignmentGrade = Number(assignment["grade"]);
-                console.log(assignmentGrade)
-                if(assignmentGrade == 10){
-                    btnColor = "primary";
-                } else if(assignmentGrade >= 8.5){
-                    btnColor = "success";
-                } else if(assignmentGrade >= 6.5){
-                    btnColor = "warning";
-                } else {
-                    btnColor = "danger";
-                }
+                // Start a single row for the student
+                let rowHTML = `
+                    <tr>
+                        <th scope="row">${studentName}</th>
+                `;
+
+                // Add a <td> for each assignment within the same row
+                assignmentsGraded.forEach(function(assignment, i) {
+                    let btnColor;
+                    let assignmentGrade = Number(assignment["grade"]);
+                    console.log(assignmentGrade)
+                    if(assignmentGrade == 10){
+                        btnColor = "primary";
+                    } else if(assignmentGrade >= 8.5){
+                        btnColor = "success";
+                    } else if(assignmentGrade >= 6.5){
+                        btnColor = "warning";
+                    } else {
+                        btnColor = "danger";
+                    }
+                    rowHTML += `
+                        <td>
+                            <button type="button" class="btn btn-${btnColor}" data-bs-toggle="modal" data-bs-target="#${studentName}-${i}">
+                                ${assignment["grade"]}
+                            </button>
+                        </td>
+                        
+                        <div class="modal fade" id="${studentName}-${i}" tabindex="-1" role="dialog" aria-labelledby="${studentName}-${i}-label" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="${studentName}-${i}-label">${studentName} - ${assignment["assignmentName"]}: ${assignment["total"]}/${assignment["possible"]} = ${assignment["grade"]}</h5>
+                                    </div>
+                                    <div class="modal-body">
+                    `
+                    assignment["lessons"].forEach(function(lesson){
+                        rowHTML += `<p>`
+                        rowHTML += lesson["score"] == 1 ? `✅ ` : `❌ `;
+                        rowHTML += lesson["title"]
+                        rowHTML += `</p>`
+                    });
+
+                    rowHTML += `</div>`
+                });
+
+                // Close the row
                 rowHTML += `
-                    <td>
-                        <button type="button" class="btn btn-${btnColor}" data-bs-toggle="modal" data-bs-target="#${studentName}-${i}">
-                            ${assignment["grade"]}
-                        </button>
-                    </td>
-                    
-                    <div class="modal fade" id="${studentName}-${i}" tabindex="-1" role="dialog" aria-labelledby="${studentName}-${i}-label" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="${studentName}-${i}-label">${studentName} - ${assignment["assignmentName"]}: ${assignment["total"]}/${assignment["possible"]} = ${assignment["grade"]}</h5>
-                                </div>
-                                <div class="modal-body">
-                `
-                assignment["lessons"].forEach(function(lesson){
-                    rowHTML += `<p>`
-                    rowHTML += lesson["score"] == 1 ? `✅ ` : `❌ `;
-                    rowHTML += lesson["title"]
-                    rowHTML += `</p>`
+                    </tr>
+                `;
+
+                // Append the completed row to the table body
+                document.querySelector('tbody').innerHTML += rowHTML;
+
+                console.log(studentName);
+                console.log(assignmentsGraded);
+            }
+
+
+            // assignmentsGraded = [
+            //     {
+            //         "assignmentName": "JS Basics 1",
+            //         "total": 18,
+            //         "possible": 19,
+            //         "lessons": [
+            //             {
+            //                 "id": "bd7123c9c441eddfaeb4bdef",
+            //                 "title": "Comment Your JavaScript Code",
+            //                 "score": 1
+            //             },
+            //         "grade": 9.5
+            //         ]
+            //     }
+            // ]
+
+            function mergeCSVandJSON(studentJSON,jsonData){
+
+                // console.log(studentJSON["Username"])
+
+                let assignmentsGraded = jsonData["assignments"];
+                assignmentsGraded.forEach(function(assignment){
+                    let tally = 0;
+                    assignment["possible"] = assignment["lessons"].length;
+                    assignment["lessons"].forEach(function(lesson){
+                        // lesson["score"] = 0;
+                        // let point = parseInt(studentJSON[lesson.title])
+                        let point = studentJSON[lesson.title]
+                        point = Number(point)
+                        // console.log(lesson.title + ": " + point));
+                        lesson["score"] = point;
+                        tally += lesson["score"];
+                    });
+                    assignment["total"] = tally;
+                    assignment["grade"] = Math.round(assignment["total"]/assignment["possible"]*100)/10; // out of 10, to the nearest tenth
                 });
-
-                rowHTML += `</div>`
-            });
-
-            // Close the row
-            rowHTML += `
-                </tr>
-            `;
-
-            // Append the completed row to the table body
-            document.querySelector('tbody').innerHTML += rowHTML;
-
-            console.log(studentName);
-            console.log(assignmentsGraded);
-        }
-
-
-        // assignmentsGraded = [
-        //     {
-        //         "assignmentName": "JS Basics 1",
-        //         "total": 18,
-        //         "possible": 19,
-        //         "lessons": [
-        //             {
-        //                 "id": "bd7123c9c441eddfaeb4bdef",
-        //                 "title": "Comment Your JavaScript Code",
-        //                 "score": 1
-        //             },
-        //         "grade": 9.5
-        //         ]
-        //     }
-        // ]
-
-        function mergeCSVandJSON(studentJSON,jsonData){
-
-            // console.log(studentJSON["Username"])
-
-            let assignmentsGraded = jsonData["assignments"];
-            assignmentsGraded.forEach(function(assignment){
-                let tally = 0;
-                assignment["possible"] = assignment["lessons"].length;
-                assignment["lessons"].forEach(function(lesson){
-                    // lesson["score"] = 0;
-                    // let point = parseInt(studentJSON[lesson.title])
-                    let point = studentJSON[lesson.title]
-                    point = Number(point)
-                    // console.log(lesson.title + ": " + point));
-                    lesson["score"] = point;
-                    tally += lesson["score"];
-                });
-                assignment["total"] = tally;
-                assignment["grade"] = Math.round(assignment["total"]/assignment["possible"]*100)/10; // out of 10, to the nearest tenth
-            });
-            return assignmentsGraded;
-        }
+                return assignmentsGraded;
+            }
 
         </script>
     </body>
