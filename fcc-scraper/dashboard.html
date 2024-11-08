@@ -123,10 +123,22 @@
             `;
 
             // Add a <td> for each assignment within the same row
-            assignmentsGraded.forEach(function(assignment, i) {   
+            assignmentsGraded.forEach(function(assignment, i) {
+                let btnColor;
+                let assignmentGrade = Number(assignment["grade"]);
+                console.log(assignmentGrade)
+                if(assignmentGrade == 10){
+                    btnColor = "primary";
+                } else if(assignmentGrade >= 8.5){
+                    btnColor = "success";
+                } else if(assignmentGrade >= 6.5){
+                    btnColor = "warning";
+                } else {
+                    btnColor = "danger";
+                }
                 rowHTML += `
                     <td>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#${studentName}-${i}">
+                        <button type="button" class="btn btn-${btnColor}" data-bs-toggle="modal" data-bs-target="#${studentName}-${i}">
                             ${assignment["grade"]}
                         </button>
                     </td>
