@@ -51,7 +51,6 @@
         "astridz5825",
         "joez2450"
     ],
-    
     "assignments": [
         {
             "assignmentName": "JS Basics 1",
@@ -212,6 +211,198 @@
                 {
                     "id": "56533eb9ac21ba0edf2244bb",
                     "title": "Word Blanks"
+                }
+            ]
+        },
+        {
+            "assignmentName": "Arrays",
+            "lessons": [
+                {
+                    "id": "bd7993c9c69feddfaeb8bdef",
+                    "title": "Store Multiple Values in one Variable using JavaScript Arrays"
+                },
+                {
+                    "id": "cf1111c1c11feddfaeb7bdef",
+                    "title": "Nest one Array within Another Array"
+                },
+                {
+                    "id": "56bbb991ad1ed5201cd392ca",
+                    "title": "Access Array Data with Indexes"
+                },
+                {
+                    "id": "cf1111c1c11feddfaeb8bdef",
+                    "title": "Modify Array Data With Indexes"
+                },
+                {
+                    "id": "56592a60ddddeae28f7aa8e1",
+                    "title": "Access Multi-Dimensional Arrays With Indexes"
+                },
+                {
+                    "id": "56bbb991ad1ed5201cd392cb",
+                    "title": "Manipulate Arrays With push Method"
+                },
+                {
+                    "id": "56bbb991ad1ed5201cd392cc",
+                    "title": "Manipulate Arrays With pop Method"
+                },
+                {
+                    "id": "56bbb991ad1ed5201cd392cd",
+                    "title": "Manipulate Arrays With shift Method"
+                },
+                {
+                    "id": "56bbb991ad1ed5201cd392ce",
+                    "title": "Manipulate Arrays With unshift Method"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244bc",
+                    "title": "Shopping List"
+                }
+            ]
+        },
+        {
+            "assignmentName": "Functions",
+            "lessons": [
+                {
+                    "id": "56bbb991ad1ed5201cd392cf",
+                    "title": "Write Reusable JavaScript with Functions"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244bd",
+                    "title": "Passing Values to Functions with Arguments"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244c2",
+                    "title": "Return a Value from a Function with Return"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244be",
+                    "title": "Global Scope and Functions"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244bf",
+                    "title": "Local Scope and Functions"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244c0",
+                    "title": "Global vs. Local Scope in Functions"
+                },
+                {
+                    "id": "598e8944f009e646fc236146",
+                    "title": "Understanding Undefined Value returned from a Function"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244c3",
+                    "title": "Assignment with a Returned Value"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244c6",
+                    "title": "Stand in Line"
+                }
+            ]
+        },
+        {
+            "assignmentName": "Conditionals",
+            "lessons": [
+                {
+                    "id": "bd7123c9c441eddfaeb5bdef",
+                    "title": "Understanding Boolean Values"
+                },
+                {
+                    "id": "cf1111c1c12feddfaeb3bdef",
+                    "title": "Use Conditional Logic with If Statements"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244d0",
+                    "title": "Comparison with the Equality Operator"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244d1",
+                    "title": "Comparison with the Strict Equality Operator"
+                },
+                {
+                    "id": "599a789b454f2bbd91a3ff4d",
+                    "title": "Practice comparing different values"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244d2",
+                    "title": "Comparison with the Inequality Operator"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244d3",
+                    "title": "Comparison with the Strict Inequality Operator"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244d4",
+                    "title": "Comparison with the Greater Than Operator"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244d5",
+                    "title": "Comparison with the Greater Than Or Equal To Operator"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244d6",
+                    "title": "Comparison with the Less Than Operator"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244d7",
+                    "title": "Comparison with the Less Than Or Equal To Operator"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244d8",
+                    "title": "Comparisons with the Logical And Operator"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244d9",
+                    "title": "Comparisons with the Logical Or Operator"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244da",
+                    "title": "Introducing Else Statements"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244db",
+                    "title": "Introducing Else If Statements"
+                },
+                {
+                    "id": "5690307fddb111c6084545d7",
+                    "title": "Logical Order in If Else Statements"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244dc",
+                    "title": "Chaining If Else Statements"
+                },
+                {
+                    "id": "5664820f61c48e80c9fa476c",
+                    "title": "Golf Code"
+                }
+            ]
+        },
+        {
+            "assignmentName": "Loops",
+            "lessons": [
+                {
+                    "id": "cf1111c1c11feddfaeb1bdef",
+                    "title": "Iterate with JavaScript While Loops"
+                },
+                {
+                    "id": "cf1111c1c11feddfaeb5bdef",
+                    "title": "Iterate with JavaScript For Loops"
+                },
+                {
+                    "id": "56104e9e514f539506016a5c",
+                    "title": "Iterate Odd Numbers With a For Loop"
+                },
+                {
+                    "id": "56105e7b514f539506016a5e",
+                    "title": "Count Backwards With a For Loop"
+                },
+                {
+                    "id": "5675e877dbd60be8ad28edc6",
+                    "title": "Iterate Through an Array with a For Loop"
+                },
+                {
+                    "id": "56533eb9ac21ba0edf2244e1",
+                    "title": "Nesting For Loops"
                 }
             ]
         }
