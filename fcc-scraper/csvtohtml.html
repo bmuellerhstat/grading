@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read CSV File</title>
+</head>
+<body>
+    <input type="file" id="fileInput" accept=".csv" />
+    <p id="output"></p>
+
+    <script>
+        
+        // document.getElementById('fileInput').addEventListener('change', function(event) {
+        //     const file = event.target.files[0];
+        //     if (file) {
+        //         const reader = new FileReader();
+        //         reader.onload = function(e) {
+        //             const content = e.target.result;
+        //             document.getElementById('output').innerText = content;
+        //             console.log(content)
+        //         };
+        //         reader.readAsText(file);
+        //     }
+        // });
+
+        
+
+        // fetch('output.csv')
+        //     .then(response => response.text())
+        //     .then(csvContent => {
+        //         const jsonData = csvToJson(csvContent);
+        //         // document.getElementById('output').innerText = JSON.stringify(jsonData, null, 2);
+        //         // console.log(jsonData);
+        //         // console.log(jsonData[0]["Username"])
+        //         
+        //     })
+        //     .catch(error => {
+        //         console.error('Error fetching the CSV file:', error);
+        //     });
+
+        Promise.all([
+            fetch('output.csv').then(response => response.text()),
+            fetch('sep11info.json').then(response => response.json())
+        ])
+        .then(([csvContent, jsonData]) => {
+            // Convert CSV content to JSON
+            const csvData = csvToJson(csvContent);
+
+            // Run your code once both files are loaded
+            console.log('CSV Data:', csvData);
+            console.log('JSON Data:', jsonData);
+
+            // Display results
+            // document.getElementById('csvOutput').innerText = JSON.stringify(csvData, null, 2);
+            // document.getElementById('jsonOutput').innerText = JSON.stringify(jsonData, null, 2);
+
+            // Use csvData and jsonData together
+            csvData.forEach(function(studentJSON){
+                addRow(studentJSON,jsonData)
+            });
+        })
+        .catch(error => {
+            console.error('Error loading files:', error);
+        });
+
+        // Function to convert CSV content to JSON
+        function csvToJson(csvContent) {
+            const lines = csvContent.trim().split('\n'); // Split the content by new lines
+            const headers = lines[0].split(','); // Get the headers from the first line
+            const jsonData = lines.slice(1).map(line => {
+                const values = line.split(','); // Split each line by commas
+                const obj = {};
+                headers.forEach((header, index) => {
+                    obj[header.trim()] = values[index].trim();
+                });
+                return obj;
+            });
+            return jsonData;
+        }
+
+        function addRow(studentJSON,jsonData){
+            console.log(studentJSON["Username"])
+        }
+
+
+
+    </script>
+</body>
+</html>

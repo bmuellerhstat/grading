@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <!-- <link href="style.css" rel="stylesheet" type="text/css" /> -->
+        <style>
+            /* CSS */
+            
+        </style>
+        
+        <title>Title</title>
+    </head>
+    <body>
+        <!-- HTML -->
+
+        <div class="container">
+            <h1 class="mt-4 mb-4">FreeCodeCamp Progress</h1>
+
+            <h2 class="mb-2">SEP11</h2>
+                
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">JS Basics 1</th>
+                            <!-- 
+                            Comment Your JavaScript Code
+                            Declare JavaScript Variables
+                            Storing Values with the Assignment Operator
+                            Assigning the Value of One Variable to Another
+                            Initializing Variables with the Assignment Operator
+                            Declare String Variables
+                            Understanding Uninitialized Variables
+                            Understanding Case Sensitivity in Variables
+                            Explore Differences Between the var and let Keywords
+                            Declare a Read-Only Variable with the const Keyword
+                            Add Two Numbers with JavaScript
+                            Subtract One Number from Another with JavaScript
+                            Multiply Two Numbers with JavaScript
+                            Divide One Number by Another with JavaScript
+                            Increment a Number with JavaScript
+                            Decrement a Number with JavaScript
+                            Create Decimal Numbers with JavaScript
+                            Multiply Two Decimals with JavaScript
+                            Divide One Decimal by Another with JavaScript
+                            -->
+                        <th scope="col">JS Basics 2</th>
+                        <th scope="col">Arrays</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- to be populated by addRow()  -->
+                </tbody>
+            </table>
+
+
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- <script src="script.js"></script> -->
+        <script>
+            // JS
+
+            Promise.all([
+            fetch('output.csv').then(response => response.text()),
+            fetch('sep11info.json').then(response => response.json())
+        ])
+        .then(([csvContent, jsonData]) => {
+            // Convert CSV content to JSON
+            const csvData = csvToJson(csvContent);
+
+            // Run your code once both files are loaded
+            console.log('CSV Data:', csvData);
+            // console.log('JSON Data:', jsonData);
+
+            // Display results
+            // document.getElementById('csvOutput').innerText = JSON.stringify(csvData, null, 2);
+            // document.getElementById('jsonOutput').innerText = JSON.stringify(jsonData, null, 2);
+
+            // Use csvData and jsonData together
+
+            // ALL
+            csvData.forEach(function(studentJSON){
+                addRow(studentJSON,jsonData)
+            });
+
+            // ONE (debugging)
+            // let studentJSON = csvData[7]
+            // addRow(studentJSON,jsonData);
+        })
+        .catch(error => {
+            console.error('Error loading files:', error);
+        });
+
+        // Function to convert CSV content to JSON
+        function csvToJson(csvContent) {
+            const lines = csvContent.trim().split('\n'); // Split the content by new lines
+            const headers = lines[0].split(','); // Get the headers from the first line
+            const jsonData = lines.slice(1).map(line => {
+                const values = line.split(','); // Split each line by commas
+                const obj = {};
+                headers.forEach((header, index) => {
+                    obj[header.trim()] = values[index].trim();
+                });
+                return obj;
+            });
+            return jsonData;
+        }
+
+        function addRow(studentJSON, jsonData) {
+            let studentName = studentJSON["Username"];
+            let assignmentsGraded = mergeCSVandJSON(studentJSON, jsonData);
+
+            // Start a single row for the student
+            let rowHTML = `
+                <tr>
+                    <th scope="row">${studentName}</th>
+            `;
+
+            // Add a <td> for each assignment within the same row
+            assignmentsGraded.forEach(function(assignment, i) {   
+                rowHTML += `
+                    <td>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#${studentName}-${i}">
+                            ${assignment["grade"]}
+                        </button>
+                    </td>
+                    
+                    <div class="modal fade" id="${studentName}-${i}" tabindex="-1" role="dialog" aria-labelledby="${studentName}-${i}-label" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="${studentName}-${i}-label">${studentName} - ${assignment["assignmentName"]}: ${assignment["total"]}/${assignment["possible"]} = ${assignment["grade"]}</h5>
+                                </div>
+                                <div class="modal-body">
+                `
+                assignment["lessons"].forEach(function(lesson){
+                    rowHTML += `<p>`
+                    rowHTML += lesson["score"] == 1 ? `✅ ` : `❌ `;
+                    rowHTML += lesson["title"]
+                    rowHTML += `</p>`
+                });
+
+                rowHTML += `</div>`
+            });
+
+            // Close the row
+            rowHTML += `
+                </tr>
+            `;
+
+            // Append the completed row to the table body
+            document.querySelector('tbody').innerHTML += rowHTML;
+
+            console.log(studentName);
+            console.log(assignmentsGraded);
+        }
+
+
+        // assignmentsGraded = [
+        //     {
+        //         "assignmentName": "JS Basics 1",
+        //         "total": 18,
+        //         "possible": 19,
+        //         "lessons": [
+        //             {
+        //                 "id": "bd7123c9c441eddfaeb4bdef",
+        //                 "title": "Comment Your JavaScript Code",
+        //                 "score": 1
+        //             },
+        //         "grade": 9.5
+        //         ]
+        //     }
+        // ]
+
+        function mergeCSVandJSON(studentJSON,jsonData){
+
+            // console.log(studentJSON["Username"])
+
+            let assignmentsGraded = jsonData["assignments"];
+            assignmentsGraded.forEach(function(assignment){
+                let tally = 0;
+                assignment["possible"] = assignment["lessons"].length;
+                assignment["lessons"].forEach(function(lesson){
+                    // lesson["score"] = 0;
+                    // let point = parseInt(studentJSON[lesson.title])
+                    let point = studentJSON[lesson.title]
+                    point = Number(point)
+                    // console.log(lesson.title + ": " + point));
+                    lesson["score"] = point;
+                    tally += lesson["score"];
+                });
+                assignment["total"] = tally;
+                assignment["grade"] = Math.round(assignment["total"]/assignment["possible"]*100)/10; // out of 10, to the nearest tenth
+            });
+            return assignmentsGraded;
+        }
+
+        </script>
+    </body>
+</html>
