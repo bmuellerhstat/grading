@@ -8,6 +8,23 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+
+function getCurrentTimestamp() {
+  const now = new Date();
+
+  // Extract year, month, hour, and minute components
+  const year = String(now.getFullYear()).slice(-2); // Last two digits of the year
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
+  const day = String(now.getDate()).padStart(2, '0'); // Day of the month
+  const hour = String(now.getHours()).padStart(2, '0');
+  const minute = String(now.getMinutes()).padStart(2, '0');
+
+  // Concatenate the components
+  return `${year}${month}${day}${hour}${minute}`;
+}
+let outputFile;
+
+
 app.get("/", (req, res) => {
   const { filePath } = req.query;
   if (!filePath) {
@@ -18,6 +35,8 @@ app.get("/", (req, res) => {
     const getPath = path.resolve(filePath);
     const content = fs.readFileSync(getPath);
     const data = JSON.parse(content);
+    const sepYear = filePath.substring(0,5);
+    outputFile = sepYear + "data" + getCurrentTimestamp() + ".csv";
 
     const lessons = [];
     lessons.push("Username");
@@ -28,7 +47,7 @@ app.get("/", (req, res) => {
     });
     lessons.push("Total");
 
-    fs.writeFile("output.csv", lessons.join(",") + "\n", (err) => {
+    fs.writeFile(outputFile, lessons.join(",") + "\n", (err) => {
       if (err) {
         console.error("Error writing to file", err);
       } else {
@@ -113,7 +132,7 @@ function hanldeWrite(data, user, line1) {
 
   payload.push(total);
 
-  fs.appendFile("output.csv", payload.join(",") + "\n", (err) => {
+  fs.appendFile(outputFile, payload.join(",") + "\n", (err) => {
     if (err) {
       console.error("Error appending to file", err);
     } else {
