@@ -14,9 +14,9 @@
                 text-align: center;
             }
 
-            .btn {
-                padding-top: 1px;
-                padding-bottom: 1px;
+            .btn, .table>:not(caption)>*>* {
+                padding-top: 2px;
+                padding-bottom: 2px;
                 /* width: 100%; */
             }
 
@@ -34,7 +34,7 @@
             <h1 class="mt-4 mb-4">FreeCodeCamp Progress</h1>
 
             <h2 class="mb-2" id="sep"></h2>
-                
+
             <table class="table">
                 <!-- headers to be populated dynamically -->
                 <tbody>
@@ -65,8 +65,10 @@
 
             let csvPath = getUrlParameter('csv');
 
+            const timestamp = new Date().getTime();
+            
             Promise.all([
-                fetch(csvPath).then(response => response.text()),
+                fetch(csvPath, { cache: 'no-store' }).then(response => response.text()),
                 fetch(`sep${year}info.json`).then(response => response.json())
             ])
             .then(([csvContent, jsonData]) => {
