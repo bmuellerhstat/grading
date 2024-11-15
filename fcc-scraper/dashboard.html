@@ -23,6 +23,46 @@
             td {
                 text-align: center;
             }
+
+            .blurred {
+                opacity: 0.3;
+                filter: blur(3px);
+                transition: opacity 0.3s, filter 0.3s;
+            }
+
+            .focused {
+                background-color: #f0f8ff;
+            }
+            
+            html, body {
+                height: 100%; /* Ensure the body and HTML take full viewport height */
+                margin: 0;
+                padding: 0;
+            }
+
+            .table-wrapper {
+                height: calc(100vh - 100px); /* 100px is for any top elements (header) */
+                overflow-y: auto;
+            }
+
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .table thead th {
+                position: sticky;
+                top: 0;
+                background-color: #f8f8f8;
+                z-index: 1;
+                padding: 10px;
+                border-bottom: 2px solid #ddd;
+            }
+
+
+
+
+
         </style>
         
         <title>Title</title>
@@ -35,12 +75,14 @@
 
             <h2 class="mb-2" id="sep"></h2>
 
-            <table class="table">
-                <!-- headers to be populated dynamically -->
-                <tbody>
-                    <!-- to be populated by addRow()  -->
-                </tbody>
-            </table>
+            <div class="table-wrapper">
+                <table class="table">
+                    <!-- headers to be populated dynamically -->
+                    <tbody>
+                        <!-- to be populated by addRow()  -->
+                    </tbody>
+                </table>
+            </div>
 
 
         </div>
@@ -95,12 +137,12 @@
 
                 // Use csvData and jsonData together
 
-                // add table headers
-                let theadHTML = `<thead><tr><th scope="col">`
-                jsonData["assignments"].forEach(function(assignment){
-                    theadHTML += `<th scope="col">${assignment["assignmentName"]}</th>`
+                // Add table headers
+                let theadHTML = `<thead><tr><th scope="col">Student</th>`;
+                jsonData["assignments"].forEach(function(assignment) {
+                    theadHTML += `<th scope="col">${assignment["assignmentName"]}</th>`;
                 });
-                theadHTML += `</tr></thead>`
+                theadHTML += `</tr></thead>`;
                 document.querySelector('.table').innerHTML += theadHTML;
 
                 // ALL
@@ -108,19 +150,21 @@
                 //     addRow(studentJSON,jsonData)
                 // });
                 jsonData["students"].forEach(function(student){
-                    console.log(student)
+                    // console.log(student)
                     // let studentJSON = csvData.find(studentObj => studentObj["Username"] == student)
                     try {
                         let studentJSON = csvData.find(studentObj => {
                             return studentObj.Username == student
                         })
-                        console.log(studentJSON)
+                        // console.log(studentJSON)
                         addRow(studentJSON,jsonData)
                     } catch {
                         errorRow(student)
                     }
                     
+                    
                 });
+                addClickListeners();
 
                 // ONE (debugging)
                 // let studentJSON = csvData[7]
@@ -170,7 +214,7 @@
                 assignmentsGraded.forEach(function(assignment, i) {
                     let btnColor;
                     let assignmentGrade = Number(assignment["grade"]);
-                    console.log(assignmentGrade)
+                    // console.log(assignmentGrade)
                     if(assignmentGrade == 10){
                         btnColor = "primary";
                     } else if(assignmentGrade >= 8.5){
@@ -213,8 +257,8 @@
                 // Append the completed row to the table body
                 document.querySelector('tbody').innerHTML += rowHTML;
 
-                console.log(studentName);
-                console.log(assignmentsGraded);
+                // console.log(studentName);
+                // console.log(assignmentsGraded);
             }
 
 
@@ -256,6 +300,48 @@
                 });
                 return assignmentsGraded;
             }
+
+
+            function addClickListeners() {
+                const table = document.querySelector("tbody");
+                const rows = table.querySelectorAll("tr");
+                console.log(`Number of rows found: ${rows.length}`);
+
+                rows.forEach((row, index) => {
+                    const firstCell = row.querySelector("th[scope='row']");
+
+                    if (firstCell) {
+                        console.log(`First cell found in row ${index + 1}:`, firstCell.textContent);
+
+                        firstCell.addEventListener("click", function () {
+                            console.log("clicked");
+                            const isBlurred = row.classList.contains("focused");
+
+                            // Toggle 'focused' on the clicked row
+                            row.classList.toggle("focused");
+
+                            // Apply or remove 'blurred' class to other rows
+                            rows.forEach((r) => {
+                                if (r !== row) {
+                                r.classList.toggle("blurred", !isBlurred);
+                            }
+                        });
+                    });
+                    } else {
+                        console.log(`No first cell found in row ${index + 1}`);
+                    }
+                })
+            }
+
+                    // Call addClickListeners after generating rows
+                    // Assuming `generateTableRows` is your function that generates and appends rows to the tbody
+                    // generateTableRows(); // This should be the function generating your rows
+                    // addClickListeners();  // Attach event listeners after rows are generated
+
+
+
+
+
 
         </script>
     </body>
