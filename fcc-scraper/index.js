@@ -1,45 +1,26 @@
-const express = require("express");
-const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
 
-const app = express();
-
-app.use(express.json());
-app.use(cors());
-
 function getCurrentTimestamp() {
   const now = new Date();
-
-  // Extract year, month, day, hour, and minute components
-  const year = String(now.getFullYear()).slice(-2); // Last two digits of the year
-  const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
-  const day = String(now.getDate()).padStart(2, '0'); // Day of the month
+  const year = String(now.getFullYear()).slice(-2);
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
   const hour = String(now.getHours()).padStart(2, '0');
   const minute = String(now.getMinutes()).padStart(2, '0');
-
-  // Concatenate the components
   return `${year}${month}${day}${hour}${minute}`;
 }
 
-let outputFile, staticFile;
-
-app.get("/", (req, res) => {
-  const { filePath } = req.query;
-  if (!filePath) {
-    return res.status(400).json({ error: "Must supply json file path!" });
-  }
-
+function processFile(filePath) {
   try {
     const getPath = path.resolve(filePath);
     const content = fs.readFileSync(getPath);
     const data = JSON.parse(content);
     const sepYear = filePath.substring(0, 5);
-    outputFile = sepYear + "data" + getCurrentTimestamp() + ".csv";
-    staticFile = sepYear + "data.csv";
+    const outputFile = sepYear + "data" + getCurrentTimestamp() + ".csv";
+    const staticFile = sepYear + "data.csv";
 
-    const lessons = [];
-    lessons.push("Username");
+    const lessons = ["Username"];
     data.assignments.forEach((a) => {
       a.lessons.forEach((b) => {
         lessons.push(b.title);
@@ -47,105 +28,70 @@ app.get("/", (req, res) => {
     });
     lessons.push("Total");
 
-    // Write headers to both files
     const headers = lessons.join(",") + "\n";
-    fs.writeFile(outputFile, headers, (err) => {
-      if (err) console.error("Error writing to timestamped file", err);
-      else console.log("Timestamped file created and headers written successfully");
-    });
+    fs.writeFileSync(outputFile, headers);
+    fs.writeFileSync(staticFile, headers);
+    console.log(`Files created: ${outputFile}, ${staticFile}`);
 
-    fs.writeFile(staticFile, headers, (err) => {
-      if (err) console.error("Error writing to static file", err);
-      else console.log("Static file created and headers written successfully");
-    });
-
-    // Process each student and fetch their completed lessons
-    data.students.forEach((i) => {
-      getCompletedLessons(i, data.assignments, lessons);
+    data.students.forEach((student) => {
+      getCompletedLessons(student, data.assignments, lessons, outputFile, staticFile);
     });
   } catch (error) {
-    console.error(error);
+    console.error(`Error processing ${filePath}:`, error);
   }
-});
+}
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
-async function getCompletedLessons(username, lessons, lessonHeaders) {
+async function getCompletedLessons(username, lessons, lessonHeaders, outputFile, staticFile) {
   try {
     const response = await fetch(
       `https://api.freecodecamp.org/api/users/get-public-profile?username=${username}`
     );
     const result = await response.json();
-    if (result.entities != null) {
+    if (result.entities) {
       const challenges = result.entities.user[username].completedChallenges;
-      handleSearch(challenges, lessons, username, lessonHeaders);
+      handleSearch(challenges, lessons, username, lessonHeaders, outputFile, staticFile);
     }
   } catch (error) {
-    console.error(error);
+    console.error(`Error fetching data for ${username}:`, error);
   }
 }
 
-function handleSearch(fcChallenges, lessons, username, lessonHeaders) {
+function handleSearch(fcChallenges, lessons, username, lessonHeaders, outputFile, staticFile) {
   const completedLessons = [];
-
-  // Get completed lessons
   lessons.forEach((chunk) => {
     chunk.lessons.forEach((lesson) => {
-      const isCompleted = fcChallenges.find(
-        (challenge) => challenge.id == lesson.id
-      );
-      if (isCompleted) {
+      if (fcChallenges.some((challenge) => challenge.id == lesson.id)) {
         completedLessons.push(lesson.title);
       }
     });
   });
-
-  handleWrite(completedLessons, username, lessonHeaders.join(","));
+  handleWrite(completedLessons, username, lessonHeaders, outputFile, staticFile);
 }
 
-function handleWrite(data, user, line1) {
-  const payload = [];
+function handleWrite(data, user, lessonHeaders, outputFile, staticFile) {
+  const payload = [user];
   let total = 0;
 
-  payload.push(user);
-
-  line1.split(",").forEach((i, index) => {
-    if (index != 0 && index != line1.split(",").length) {
-      if (data.includes(i)) {
-        payload.push(1); // Did lesson
-      } else {
-        payload.push(0); // Did not do lesson
-      }
+  lessonHeaders.forEach((header, index) => {
+    if (index > 0 && index < lessonHeaders.length - 1) {
+      payload.push(data.includes(header) ? 1 : 0);
     }
   });
 
-  // Calculate total lessons completed by each student
-  payload.forEach((a, index) => {
-    if (index != 0) {
-      total += parseInt(a);
-    }
-  });
-
+  total = payload.slice(1).reduce((sum, val) => sum + val, 0);
   payload.push(total);
 
   const row = payload.join(",") + "\n";
-  
-  // Append row to both files
-  fs.appendFile(outputFile, row, (err) => {
-    if (err) console.error("Error appending to timestamped file", err);
-    else console.log("Content appended successfully to timestamped file");
-  });
-
-  fs.appendFile(staticFile, row, (err) => {
-    if (err) console.error("Error appending to static file", err);
-    else console.log("Content appended successfully to static file");
-  });
+  fs.appendFileSync(outputFile, row);
+  fs.appendFileSync(staticFile, row);
+  console.log(`Appended data for ${user} to files: ${outputFile}, ${staticFile}`);
 }
+
+// Entry point
+const filePaths = process.argv.slice(2);
+if (filePaths.length === 0) {
+  console.error("Please specify at least one JSON file path to process.");
+  process.exit(1);
+}
+
+filePaths.forEach(processFile);
