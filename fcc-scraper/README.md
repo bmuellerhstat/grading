@@ -10,3 +10,7 @@
 curl "http://localhost:3000/?filePath=sep10info.json"
 curl "http://localhost:3000/?filePath=sep11info.json"
 ```
+
+This will write to two identical files, for example:
+* `sep11data.csv` for consistent loading into dashboard
+* `sep11data2411151234.csv` for archive purposes

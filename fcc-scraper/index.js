@@ -8,11 +8,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-
 function getCurrentTimestamp() {
   const now = new Date();
 
-  // Extract year, month, hour, and minute components
+  // Extract year, month, day, hour, and minute components
   const year = String(now.getFullYear()).slice(-2); // Last two digits of the year
   const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
   const day = String(now.getDate()).padStart(2, '0'); // Day of the month
@@ -22,8 +21,8 @@ function getCurrentTimestamp() {
   // Concatenate the components
   return `${year}${month}${day}${hour}${minute}`;
 }
-let outputFile;
 
+let outputFile, staticFile;
 
 app.get("/", (req, res) => {
   const { filePath } = req.query;
@@ -35,8 +34,9 @@ app.get("/", (req, res) => {
     const getPath = path.resolve(filePath);
     const content = fs.readFileSync(getPath);
     const data = JSON.parse(content);
-    const sepYear = filePath.substring(0,5);
+    const sepYear = filePath.substring(0, 5);
     outputFile = sepYear + "data" + getCurrentTimestamp() + ".csv";
+    staticFile = sepYear + "data.csv";
 
     const lessons = [];
     lessons.push("Username");
@@ -47,12 +47,16 @@ app.get("/", (req, res) => {
     });
     lessons.push("Total");
 
-    fs.writeFile(outputFile, lessons.join(",") + "\n", (err) => {
-      if (err) {
-        console.error("Error writing to file", err);
-      } else {
-        console.log("File created and headers written successfully");
-      }
+    // Write headers to both files
+    const headers = lessons.join(",") + "\n";
+    fs.writeFile(outputFile, headers, (err) => {
+      if (err) console.error("Error writing to timestamped file", err);
+      else console.log("Timestamped file created and headers written successfully");
+    });
+
+    fs.writeFile(staticFile, headers, (err) => {
+      if (err) console.error("Error writing to static file", err);
+      else console.log("Static file created and headers written successfully");
     });
 
     // Process each student and fetch their completed lessons
@@ -92,7 +96,7 @@ async function getCompletedLessons(username, lessons, lessonHeaders) {
 function handleSearch(fcChallenges, lessons, username, lessonHeaders) {
   const completedLessons = [];
 
-  //get completed lessons
+  // Get completed lessons
   lessons.forEach((chunk) => {
     chunk.lessons.forEach((lesson) => {
       const isCompleted = fcChallenges.find(
@@ -104,10 +108,10 @@ function handleSearch(fcChallenges, lessons, username, lessonHeaders) {
     });
   });
 
-  hanldeWrite(completedLessons, username, lessonHeaders.join(","));
+  handleWrite(completedLessons, username, lessonHeaders.join(","));
 }
 
-function hanldeWrite(data, user, line1) {
+function handleWrite(data, user, line1) {
   const payload = [];
   let total = 0;
 
@@ -116,14 +120,14 @@ function hanldeWrite(data, user, line1) {
   line1.split(",").forEach((i, index) => {
     if (index != 0 && index != line1.split(",").length) {
       if (data.includes(i)) {
-        payload.push(1); //Did lesson
+        payload.push(1); // Did lesson
       } else {
-        payload.push(0); //Did not do lesson
+        payload.push(0); // Did not do lesson
       }
     }
   });
 
-  //calc total lessons completed by each student
+  // Calculate total lessons completed by each student
   payload.forEach((a, index) => {
     if (index != 0) {
       total += parseInt(a);
@@ -132,11 +136,16 @@ function hanldeWrite(data, user, line1) {
 
   payload.push(total);
 
-  fs.appendFile(outputFile, payload.join(",") + "\n", (err) => {
-    if (err) {
-      console.error("Error appending to file", err);
-    } else {
-      console.log("Content appended successfully");
-    }
+  const row = payload.join(",") + "\n";
+  
+  // Append row to both files
+  fs.appendFile(outputFile, row, (err) => {
+    if (err) console.error("Error appending to timestamped file", err);
+    else console.log("Content appended successfully to timestamped file");
+  });
+
+  fs.appendFile(staticFile, row, (err) => {
+    if (err) console.error("Error appending to static file", err);
+    else console.log("Content appended successfully to static file");
   });
 }
