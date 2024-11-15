@@ -22,9 +22,9 @@
         <div class="container">
             <h1 class="mt-4 mb-4">FreeCodeCamp Progress</h1>
 
-            <p><input id="sep10path" class="sepPath" placeholder="CSV File Name"><a id="sep10link" href="dashboard.html?year=10" class="btn btn-primary" role="button">SEP10</a></p>
+            <p><input id="sep10path" class="sepPath" placeholder="CSV File Name" value="sep10data.csv"><a id="sep10link" href="dashboard.html?year=10&csv=sep10data.csv" class="btn btn-primary" role="button">SEP10</a></p>
 
-            <p><input id="sep11path" class="sepPath" placeholder="CSV File Name"><a id="sep11link" href="dashboard.html?year=11" class="btn btn-primary" role="button">SEP11</a></p>
+            <p><input id="sep11path" class="sepPath" placeholder="CSV File Name" value="sep11data.csv"><a id="sep11link" href="dashboard.html?year=11&csv=sep11data.csv" class="btn btn-primary" role="button">SEP11</a></p>
 
         </div>
         
@@ -40,13 +40,21 @@
             //     document.getElementById("dynamicLink").href = formattedUrl;
             // });
             
-            document.querySelectorAll('.sepPath').forEach(function(sepPathInput){
-                sepPathInput.addEventListener('input', function(addEventListener){
-                    let path = this.value;
-                    path = path.endsWith('.csv') ? path : `${path}.csv`;
-                    event.target.nextElementSibling.href += "&csv=" + path
-                })
-            });
+            // document.querySelectorAll('.sepPath').forEach(function(sepPathInput){
+            //     sepPathInput.addEventListener('input', function(addEventListener){
+            //         let path = this.value;
+            //         path = path.endsWith('.csv') ? path : `${path}.csv`;
+            //         event.target.nextElementSibling.href += "&csv=" + path
+            //     })
+            // });
+
+            document.querySelector('#sep10path').addEventListener('input', function(addEventListener){
+                let path = this.value;
+                path = path.endsWith('.csv') ? path : `${path}.csv`;
+                event.target.nextElementSibling.href = "dashboard.html?year=10&csv=" + path
+            })
+
+            
 
 
         </script>

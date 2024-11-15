@@ -51,6 +51,14 @@
         <script>
             // JS
 
+            // try for clearing cache so it doesn't have to be hard reloaded (might not work)
+            if ('caches' in window) {
+                caches.keys().then(names => {
+                    for (let name of names) caches.delete(name);
+                });
+            }
+
+
             let urlParams = new URLSearchParams(window.location.search);
 
             function getUrlParameter(name) {
@@ -76,8 +84,8 @@
                 const csvData = csvToJson(csvContent);
 
                 // Run your code once both files are loaded
-                console.log('CSV Data:', csvData);
-                console.log(csvData[0].Username)
+                // console.log('CSV Data:', csvData);
+                // console.log(csvData[0].Username)
                 // console.log('JSON Data:', jsonData);
                 // console.log(jsonData["assignments"])
 
