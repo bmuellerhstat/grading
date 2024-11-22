@@ -16,9 +16,17 @@ function processFile(filePath) {
     const getPath = path.resolve(filePath);
     const content = fs.readFileSync(getPath);
     const data = JSON.parse(content);
-    const sepYear = filePath.substring(0, 5);
-    const outputFile = sepYear + "data" + getCurrentTimestamp() + ".csv";
-    const staticFile = sepYear + "data.csv";
+    const sepYear = filePath.substring(0, 5);  // e.g., "sep10" or "sep11"
+
+    // Create archive folder for the specific sepYear if it doesn't exist
+    const sepYearArchiveDir = path.join(__dirname, `${sepYear}archive`);
+    if (!fs.existsSync(sepYearArchiveDir)) {
+      fs.mkdirSync(sepYearArchiveDir);
+    }
+
+    // Define paths for timestamped and static files
+    const outputFile = path.join(sepYearArchiveDir, `${sepYear}data${getCurrentTimestamp()}.csv`);
+    const staticFile = `${sepYear}data.csv`;
 
     const lessons = ["Username"];
     data.assignments.forEach((a) => {
