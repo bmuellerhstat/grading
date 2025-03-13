@@ -7,6 +7,7 @@ import pprint
 import math
 import re
 import csv
+import json
 
 ##### COLORS #####
 
@@ -169,6 +170,7 @@ sep11_p5js_applicativity_rubric = [
 
 ### SEP11 ###
 cohort = 'js-2026' # SEP11
+order_file = 'sep11info.json'
 
 # repo = 'dom-lessons'
 # rubric = sep11_dom_rubric
@@ -196,7 +198,22 @@ else:
 
 OUTPUT_FILE = "grades.csv"
 
-students = sorted([s for s in os.listdir(BASE_DIR) if os.path.isdir(os.path.join(BASE_DIR, s))])
+# Load student order from JSON file
+try:
+    with open(order_file, 'r', encoding='utf-8') as f:
+        student_order = json.load(f).get("students", [])
+except (FileNotFoundError, json.JSONDecodeError):
+    print(f"Warning: {order_file} not found or invalid. Defaulting to alphabetical order.")
+    student_order = []
+
+# Get list of students from directory
+students = [s for s in os.listdir(BASE_DIR) if os.path.isdir(os.path.join(BASE_DIR, s))]
+
+# Reorder students based on the JSON file
+if student_order:
+    students = [s for s in student_order if s in students]  # Keep only students in both lists
+else:
+    students = sorted(students)  # Default to alphabetical order if JSON is missing
 
 # Write results to a CSV file
 with open(OUTPUT_FILE, 'w', newline='', encoding='utf-8') as csvfile:
