@@ -170,11 +170,11 @@ sep11_p5js_applicativity_rubric = [
 ### SEP11 ###
 cohort = 'js-2026' # SEP11
 
-repo = 'dom-lessons'
-rubric = sep11_dom_rubric
+# repo = 'dom-lessons'
+# rubric = sep11_dom_rubric
 
-# repo = 'p5js'
-# rubric = sep11_p5js_basics_rubric
+repo = 'p5js'
+rubric = sep11_p5js_basics_rubric
 # rubric = sep11_p5js_zoog_rubric
 # rubric = sep11_p5js_movement_rubric
 # rubric = sep11_p5js_interactivity_rubric
@@ -187,7 +187,8 @@ rubric = sep11_dom_rubric
 ##### PROGRAM #####
 
 base_path = f'../../../../Documents/github-classroom/{cohort}/'
-matching_folders = glob.glob(os.path.join(base_path, f"{repo}*"))  # Find folders starting with `repo`
+matching_folders = glob.glob(os.path.join(base_path, f"{repo}*"))
+
 if matching_folders:
     BASE_DIR = matching_folders[0]  # Take the first match (there should be only one)
 else:
@@ -195,40 +196,55 @@ else:
 
 OUTPUT_FILE = "grades.csv"
 
-# Get student folders, sorted alphabetically
 students = sorted([s for s in os.listdir(BASE_DIR) if os.path.isdir(os.path.join(BASE_DIR, s))])
 
 # Write results to a CSV file
 with open(OUTPUT_FILE, 'w', newline='', encoding='utf-8') as csvfile:
     writer = csv.writer(csvfile)
     
-    # Write header row
-    writer.writerow(["Student"] + [assignment["slug"] for assignment in rubric])
+    # Header row
+    column_headers = ["Student"] + [assignment["slug"] for assignment in rubric] + ["Average (%)", "Out of 10"]
+    writer.writerow(column_headers)
 
     for student in students:
         student_path = os.path.join(BASE_DIR, student)
         scores = [student]  # Start row with student name
+        numeric_scores = []
 
         for assignment in rubric:
             file_path = os.path.join(student_path, assignment["slug"])
 
             if not os.path.exists(file_path):
-                scores.append("0")  # If file is missing, score 0
+                scores.append("0")  # File missing → score 0
+                numeric_scores.append(0)
                 continue
 
-            # Read file contents
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
 
-            # Count pattern matches
             total_patterns = len(assignment["patterns"])
             match_count = sum(bool(re.search(pattern, content)) for pattern in assignment["patterns"])
-
-            # Calculate score out of 10
             score = (match_count / total_patterns) * 10 if total_patterns else 0
-            scores.append(f"{score:.2f}")
 
-        # Write row to CSV file
+            scores.append(f"{score:.2f}")
+            numeric_scores.append(score)
+
+        # Calculate the average and add extra columns
+        if numeric_scores:
+            avg_score = sum(numeric_scores) / len(numeric_scores)
+            avg_percentage = f"{round(avg_score * 10)}%"
+            
+            # Round to nearest tenth and remove trailing .0 if it's a whole number
+            avg_out_of_10 = round(avg_score, 1)
+            avg_out_of_10 = int(avg_out_of_10) if avg_out_of_10.is_integer() else avg_out_of_10
+        else:
+            avg_percentage = "0%"
+            avg_out_of_10 = 0
+
+        scores.append(avg_percentage)
+        scores.append(avg_out_of_10)
+
+        # Write row to CSV
         writer.writerow(scores)
 
 print(f"Grades saved to {OUTPUT_FILE}. Open it in Google Sheets.")
