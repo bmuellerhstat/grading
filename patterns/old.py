@@ -288,7 +288,7 @@ def run():
 # print(students)
 
 # PRINT ONE STUDENT
-# student = 'austinl1905'
+# student = 'student1234'
 # print(student + ": " + str(run_student_tests(path,student,rubric,True,False,False))) # details, show_matches,student_breakdown
 
 # python3 patterns.py

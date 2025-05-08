@@ -177,8 +177,8 @@ order_file = 'sep11info.json'
 # rubric = sep11_dom_rubric
 
 repo = 'p5js'
-# rubric = sep11_p5js_basics_rubric
-rubric = sep11_p5js_zoog_rubric
+rubric = sep11_p5js_basics_rubric
+# rubric = sep11_p5js_zoog_rubric
 rubric = sep11_p5js_movement_rubric
 # rubric = sep11_p5js_interactivity_rubric
 rubric = sep11_p5js_application_rubric
@@ -188,7 +188,8 @@ rubric = sep11_p5js_application_rubric
 
 
 ##### PROGRAM #####
-submissions = True  # Set to True if using compare50 / student repos are nested in `submissions`
+submissions = False
+# submissions = True  # Set to True if using compare50 / student repos are nested in `submissions`
 base_path = f'../../../../Documents/github-classroom/{cohort}/'
 
 # Find the top-level repo folder (with timestamp)
