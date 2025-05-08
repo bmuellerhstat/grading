@@ -1,6 +1,11 @@
 # Created by https://www.toptal.com/developers/gitignore/api/nextjs
 # Edit at https://www.toptal.com/developers/gitignore?templates=nextjs
 
+patterns/grades*
+patterns/sep*
+fcc-scraper/sep*
+fcc-scraper/data*
+
 ### NextJS ###
 # dependencies
 /node_modules

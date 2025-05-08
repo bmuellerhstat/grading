@@ -160,6 +160,7 @@ sep11_p5js_applicativity_rubric = [
 
 ### SEP10 ###
 # cohort = 'wd-2027' # SEP10
+# order_file = 'sep10info.json'
 
 # repo = 'rwd-principles'
 # rubric = sep10_rwd_principles_rubric
@@ -176,25 +177,34 @@ order_file = 'sep11info.json'
 # rubric = sep11_dom_rubric
 
 repo = 'p5js'
-rubric = sep11_p5js_basics_rubric
-# rubric = sep11_p5js_zoog_rubric
-# rubric = sep11_p5js_movement_rubric
+# rubric = sep11_p5js_basics_rubric
+rubric = sep11_p5js_zoog_rubric
+rubric = sep11_p5js_movement_rubric
 # rubric = sep11_p5js_interactivity_rubric
-# rubric = sep11_p5js_application_rubric
+rubric = sep11_p5js_application_rubric
 # rubric = sep11_p5js_applicativity_rubric
 
 
 
 
 ##### PROGRAM #####
-
+submissions = True  # Set to True if using compare50 / student repos are nested in `submissions`
 base_path = f'../../../../Documents/github-classroom/{cohort}/'
-matching_folders = glob.glob(os.path.join(base_path, f"{repo}*"))
 
-if matching_folders:
-    BASE_DIR = matching_folders[0]  # Take the first match (there should be only one)
-else:
-    raise FileNotFoundError(f"No folder found starting with '{repo}' in {base_path}")
+# Find the top-level repo folder (with timestamp)
+repo_folders = glob.glob(os.path.join(base_path, f"{repo}-*"))
+if not repo_folders:
+    raise FileNotFoundError(f"No folder found starting with '{repo}-' in {base_path}")
+
+# Use the first match
+repo_base = repo_folders[0]
+
+# Optionally go into the 'submissions' folder
+BASE_DIR = os.path.join(repo_base, "submissions") if submissions else repo_base
+
+# Confirm folder exists
+if not os.path.isdir(BASE_DIR):
+    raise FileNotFoundError(f"Expected folder not found: {BASE_DIR}")
 
 OUTPUT_FILE = "grades.csv"
 
@@ -207,23 +217,26 @@ except (FileNotFoundError, json.JSONDecodeError):
     student_order = []
 
 # Get list of students from directory
-students = [s for s in os.listdir(BASE_DIR) if os.path.isdir(os.path.join(BASE_DIR, s))]
+students_in_repo = {s for s in os.listdir(BASE_DIR) if os.path.isdir(os.path.join(BASE_DIR, s))}
 
-# Reorder students based on the JSON file
-if student_order:
-    students = [s for s in student_order if s in students]  # Keep only students in both lists
-else:
-    students = sorted(students)  # Default to alphabetical order if JSON is missing
+# Ensure every student in the JSON file appears in the CSV, even if missing from the repo
+students = student_order if student_order else sorted(students_in_repo)
 
 # Write results to a CSV file
 with open(OUTPUT_FILE, 'w', newline='', encoding='utf-8') as csvfile:
     writer = csv.writer(csvfile)
     
     # Header row
-    column_headers = ["Student"] + [assignment["slug"] for assignment in rubric] + ["Average (%)", "Out of 10"]
+    column_headers = ["Student"] + [assignment["slug"] for assignment in rubric] + ["Overall", "Out of 10"]
     writer.writerow(column_headers)
 
     for student in students:
+        if student not in students_in_repo:
+            # Student not found in repo → Write "ERROR" in all columns
+            error_row = [student] + ["ERROR"] * (len(rubric) + 2)
+            writer.writerow(error_row)
+            continue  # Skip processing
+
         student_path = os.path.join(BASE_DIR, student)
         scores = [student]  # Start row with student name
         numeric_scores = []

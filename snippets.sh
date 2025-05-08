@@ -50,10 +50,12 @@ git config user.email "brianscottmueller@gmail.com"
 
 
 # search for text (find)
+# use -i to make case-insensitive
 grep -r 'text' *
 grep -r 'while(' *
 grep -r --exclude-dir=.git 'new Player' *
-grep -r '4.5'
+grep -r '4.5' *
+grep -ri 'checkend' *
 
 # get current repo name
 fullrepo=${PWD##*/}; fullrepolength=${#fullrepo}; repolength="$(($fullrepolength-20))"; repo=$(echo $fullrepo | cut -c1-$repolength); echo $repo
@@ -160,6 +162,7 @@ output=""; file=; for student in *; do cd $student; last_commit_date=$(git log -
 compare50 * -x "*" -i "script.js"
 compare50 projects/* -d index.html
 compare50 * -x "*" -i "runner_Player.java"
+compare50 * -x "*" -i "Player.java"
 
 # install github classroom CLI into cs50.dev
 sudo apt install gh
@@ -175,14 +178,16 @@ gh extension install github/gh-classroom
 # put copy of example in `example` folder
 compare50 submissions/*/index.html -d example
 
-# compare pong-remix (same process as above)
-# in current year p5js-...
-mkdir ../pong-remix-compare ../pong-remix-compare/submissions
-for student in *; do echo $student; cd $student; cp 04-pong/pong-remix.html ../../pong-remix-compare/submissions/pong-remix-$student.html; cd ..; done
-compare50 submissions/* -d pong.html
-
 # compare shabr (from wd-20XX)
 compare50 shabr-03-21-2024-11-17-38/* -x "*" -i "index.html" -d example
+
+# compare50 all p5js hw
+# put all submissions in `submissions` folder
+# put copy of templateFile.html in top folder
+compare50 submissions/*/*/*-hw.html -x submissions/templateFile.html
+
+# compare50 pong
+compare50 submissions/*/04-pong/pong-remix.html -d pong.html
 
 
 # list prep folder (to find wireframes)
@@ -218,6 +223,7 @@ file=index.html;patterns=("container" "row" "col"); for student in *; do echo -e
 fullrepo=${PWD##*/}; fullrepolength=${#fullrepo}; repolength="$(($fullrepolength-20))"; repo=$(echo $fullrepo | cut -c1-$repolength); for student in *; do echo $student; echo http://github.com/hstatsep-students/$repo-$student; bat $student/README.md --theme=ansi --paging=never; printf "\n\n\n********************************\n\n"; bat $student/index.html --theme=ansi --paging=never; printf "\n\n\n********************************\n\n"; done
 
 # SHABR
+# NOTE: since it's a lot to scroll through, look at the line numbers as you scroll, and look for when they reset (as an easy way to find the patterns)
 file=index.html;patterns=("container" "row" "col"); for student in *; do echo -e '\033[1;30m'$student'\033[0m'; printf "\n"; bat $student/$file --theme=ansi --paging=never; printf "\n"; for pattern in ${patterns[@]}; do echo -e '\033[0;33m'$pattern'\033[0m'; if grep -n $pattern $student/$file; then echo -e '\033[1;32mTRUE\033[0m'; else echo -e '\033[1;31mFALSE\033[0m'; fi; printf "\n"; done; printf "\n\n\n********************************\n\n"; done
 
 # JSproject
@@ -228,11 +234,20 @@ file=script.js;patterns=("//" "\[" "function" "return" "if" "function\s+\w+\s*\(
 
 # open p5js
 file=01-basics/zoog.html; for student in *; do echo $student; open $student/$file; done
+file=02-movement/variables-hw.html; for student in *; do echo $student; open $student/$file; done
+file=02-movement/mousexy-hw.html; for student in *; do echo $student; open $student/$file; done
+file=02-movement/events-hw.html; for student in *; do echo $student; open $student/$file; done
+file=02-movement/random-hw.html; for student in *; do echo $student; open $student/$file; done
+file=02-movement/interactivity.html; for student in *; do echo $student; open $student/$file; done
+
 file=04-pong/pong-remix.html; for student in *; do echo $student; open $student/$file; done
 
+# print p5js
+file=02-movement/variables-hw.html;for student in *; do echo $student; bat $student/$file --theme=ansi --paging=never; printf "\n\n\n********************************\n\n"; done
 
 
-
+# open all p5js HW of ONE student
+find . -type f -name '*-hw.html' -exec open {} \;
 
 ########## CLONING GITHUB REPOS ##########
 
@@ -349,8 +364,9 @@ file=01-basics/01-hw.html;patterns=("querySelector" "innerHTML\s=\|innerHTML=" "
 
 
 # COMMENTS
+<<comment
 There is nothing attached here. Make sure you press "Add" > "Link" and attach the correct URL.
-
+comment
 
 
 
@@ -375,9 +391,64 @@ How to fix “port in use” error
 
 
 
+# install command to see file tree
+sudo apt-get install tree
 
 
-########## TALKING POINTS ##########
+
+
+########## OTHER ##########
+
+# skills
+<<comment
+collaboration, communication, problem decomposition, logical reasoning, debugging, how to learn, how to google, how to read, time management, growth mindset, embracing failure, leadership, organization, attention to detail, consideration, creativity
+comment
+
+# FP Freedom Project Presentation feedback
+# 11
+<<comment
+PROCESS: How will you show off the code you wrote for 2+ JS concepts (conditional/function/loop/array).
+// GENERAL
+HOOK: how will you draw us in?
+PRODUCT: how exactly will you show us what you made?
+PROCESS: what juicy code snippets could you show us? Any challenges? How did you learn your tool?
+CONCLUSION: how will you summarize? Specific takeaways?
+comment
+
+<<comment
+02-movement/variables-hw.html
+	width
+	height
+02-movement/mousexy-hw.html
+	mouseX
+	mouseY
+02-movement/events-hw.html
+	function mouse___() OR function key___()
+02-movement/random-hw.html
+	random
+
+03-application/conditionals-hw.html
+	if
+	key OR keyCode
+03-application/functions-hw.html
+	define/call your own function OR complete one of the other classworks
+03-application/loops-hw.html
+	for OR while
+03-application/arrays-hw.html
+	array
+comment
+
+
+gp() {
+	git add .
+	git commit -m "$1"
+	git push
+}
+
+# gp "my message"
+
+
+########## TALKING POINTS / JUPTER MSG ##########
 
 # Late to clas
 <<comment
@@ -405,31 +476,3 @@ comment
 Hi this is Mr. Mueller. I am your student's software engineering teacher. I am messaging you because several of your student's assignments were either missing or late for marking period 1. Please encourage them to turn in work on time in marking period 2 so that they don't fall behind in class. Thank you!
 comment
 
-
-
-########## OTHER ##########
-
-# skills
-<<comment
-collaboration, communication, problem decomposition, logical reasoning, debugging, how to learn, how to google, how to read, time management, growth mindset, embracing failure, leadership, organization, attention to detail, consideration, creativity
-comment
-
-# FP Freedom Project Presentation feedback
-# 11
-<<comment
-PROCESS: How will you show off the code you wrote for 2+ JS concepts (conditional/function/loop/array).
-// GENERAL
-HOOK: how will you draw us in?
-PRODUCT: how exactly will you show us what you made?
-PROCESS: what juicy code snippets could you show us? Any challenges? How did you learn your tool?
-CONCLUSION: how will you summarize? Specific takeaways?
-comment
-
-
-gp() {
-	git add .
-	git commit -m "$1"
-	git push
-}
-
-# gp "my message"
