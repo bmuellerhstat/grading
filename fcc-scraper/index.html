@@ -54,6 +54,12 @@
                 event.target.nextElementSibling.href = "dashboard.html?year=10&csv=" + path
             })
 
+            document.querySelector('#sep11path').addEventListener('input', function(addEventListener){
+                let path = this.value;
+                path = path.endsWith('.csv') ? path : `${path}.csv`;
+                event.target.nextElementSibling.href = "dashboard.html?year=11&csv=" + path
+            })
+
             
 
 
