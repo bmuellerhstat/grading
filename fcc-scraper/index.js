@@ -52,7 +52,7 @@ function processFile(filePath) {
 async function getCompletedLessons(username, lessons, lessonHeaders, outputFile, staticFile) {
   try {
     const response = await fetch(
-      `https://api.freecodecamp.org/api/users/get-public-profile?username=${username}`
+      `https://api.freecodecamp.org/users/get-public-profile?username=${username}`
     );
     const result = await response.json();
     if (result.entities) {
